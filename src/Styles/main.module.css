@@ -1,0 +1,11 @@
+* {
+  color: white;
+}
+.mainWrapper {
+  border: 1px solid red;
+  height: 100vh;
+}
+
+h1 {
+  color: white;
+}
