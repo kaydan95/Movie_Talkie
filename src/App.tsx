@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 import {ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client";
+import {createUploadLink} from "apollo-upload-client";
 
 import './App.css';
 import CreateUser from './Components/CreateUser';
@@ -8,11 +9,19 @@ import ListOfUsers from './Components/ListOfUsers';
 import UpdatePw from './Components/UpdatePw';
 import Banner from './Components/Banner';
 import Main from './Components/Main';
+import PostArticle from './Components/PostArticle';
+import AddCategory from './Components/AddCategory';
 
 function App() {
-  const client = new ApolloClient({
-    uri : 'http://localhost:3001/graphql',
 
+  const BASE_URL:string = "http://localhost:3001/graphql";
+
+  const link = createUploadLink({
+    uri : BASE_URL
+  });
+
+  const client = new ApolloClient({
+    link : link,
     cache : new InMemoryCache(),
   });
 
@@ -25,6 +34,8 @@ function App() {
           <Route path="/createuser" element={<CreateUser/>}></Route>
           <Route path="/listofusers" element={<ListOfUsers/>}></Route>
           <Route path="/updatepw" element={<UpdatePw/>}></Route>
+          <Route path="/postarticle" element={<PostArticle/>}></Route>
+          <Route path="/addCategory" element={<AddCategory/>}></Route>
         </Routes>
         <div>THIs is the Footer</div>
       </ApolloProvider>
