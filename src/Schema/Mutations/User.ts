@@ -3,7 +3,6 @@ import { UserType } from "../TypeDefs/User";
 import { MessageType } from "../TypeDefs/Messages";
 import { Users } from "../../Entities/Users";
 
-
 export const CREATE_USER = {
     type : UserType,
     args :{

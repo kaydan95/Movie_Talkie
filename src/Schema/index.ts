@@ -4,12 +4,20 @@
 
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
 import { GET_ALL_USERS } from './Queries/User';
+import { GET_ALL_CATEGORIES } from './Queries/Categories';
+import { GET_ALL_ARTICLES, GET_ALL_CATE_ARTICLES, GET_ARTICLE } from './Queries/Articles';
 import { CREATE_USER, DELETE_USER, UPDATE_PASSWORD } from './Mutations/User';
+import { POST_ARTICLE } from './Mutations/Articles';
+import { ADD_CATEGORY } from './Mutations/Category';
 
 const RootQuery = new GraphQLObjectType({
     name : "RootQuery",
     fields : {
-        getAllUsers : GET_ALL_USERS
+        getAllUsers : GET_ALL_USERS,
+        getArticle : GET_ARTICLE,
+        getAllArticles : GET_ALL_ARTICLES,
+        getAllCateArticles : GET_ALL_CATE_ARTICLES,
+        getAllCategories : GET_ALL_CATEGORIES
     }
 })
 
@@ -18,7 +26,9 @@ const Mutation = new GraphQLObjectType({
     fields : {
         createUser : CREATE_USER,
         deleteUser : DELETE_USER,
-        updatePassword : UPDATE_PASSWORD
+        updatePassword : UPDATE_PASSWORD,
+        postArticle : POST_ARTICLE,
+        addCategory : ADD_CATEGORY
     }
 })
 
