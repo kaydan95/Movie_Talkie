@@ -11,6 +11,8 @@ import Banner from './Components/Banner';
 import Main from './Components/Main';
 import PostArticle from './Components/PostArticle';
 import AddCategory from './Components/AddCategory';
+import ListOfArticles from './Components/ListOfArticles';
+import Article from './Components/Article';
 
 function App() {
 
@@ -36,6 +38,8 @@ function App() {
           <Route path="/updatepw" element={<UpdatePw/>}></Route>
           <Route path="/postarticle" element={<PostArticle/>}></Route>
           <Route path="/addCategory" element={<AddCategory/>}></Route>
+          <Route path="/lisofarticles" element={<ListOfArticles/>}></Route>
+          <Route path="/article" element={<Article/>}></Route>
         </Routes>
         <div>THIs is the Footer</div>
       </ApolloProvider>

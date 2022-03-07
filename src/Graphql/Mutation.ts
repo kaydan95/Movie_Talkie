@@ -75,6 +75,16 @@ export const POST_ARTICLE = gql`
 
 `
 
+export const DELETE_ARTICLE = gql`
+
+    mutation deleteArticle($password : string!) {
+        deleteArticle (password : $password) {
+            message
+        }
+    }
+
+`
+
 export const ADD_CATEGORY = gql`
     
     mutation addCategory(

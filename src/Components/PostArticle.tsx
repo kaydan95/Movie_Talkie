@@ -4,7 +4,7 @@ import { POST_ARTICLE } from '../Graphql/Mutation';
 
 function PostArticle() {
 
-    const category = 1;
+    const category = 2;
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [title, setTitle] = useState("");
@@ -28,7 +28,7 @@ function PostArticle() {
         <div>
             <h3>posting test</h3>
             <div>
-                <input type="text" placeholder="category_number" value="1"/><br/>
+                <input type="text" placeholder="category_number" value="2"/><br/>
                 <input type="text" placeholder="username" onChange={(event) => {
                     setUserName(event.target.value);
                     }}/><br/>
