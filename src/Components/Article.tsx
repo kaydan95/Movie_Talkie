@@ -1,11 +1,12 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import React from 'react';
 import { useState } from 'react';
 import { GET_ARTICLE } from '../Graphql/Queries';
+import { DELETE_ARTICLE } from '../Graphql/Mutation'
 
 function Article() {
 
-    let cate_id = 1;
+    let article_id = 3;
 
     const [articles, setArticles] = useState({
         title : " ",
@@ -16,9 +17,9 @@ function Article() {
     })
 
     const { loading, error } = useQuery(GET_ARTICLE, {
-        variables : {id : cate_id},
+        variables : {id : article_id},
         onCompleted : (data) => {
-            if(cate_id === 0) {
+            if(article_id === 0) {
                 setArticles({
                     title : "NO DATA",
                     context : "NO DATA",
@@ -46,10 +47,20 @@ function Article() {
         })
     }
 
+    const [password, confirmPassword] = useState(" ");
+
+    const  [ handleDelete, {error : deleteError} ]  = useMutation(DELETE_ARTICLE);
+
     return (
         <div>
             <h1>Here is Articles</h1>
-            <button>Delete Article</button><br/>
+            <input type="text" onChange={(event)=>{
+                confirmPassword(event?.target.value);
+            }}></input>
+            <button onClick={()=>{
+                handleDelete({variables : {id : article_id, password : password}});
+
+            }}>Delete Article</button><br/>
             <button>Edit Article</button>
             <div>
                 {articles && (<div>
