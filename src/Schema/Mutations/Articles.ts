@@ -37,4 +37,16 @@ export const POST_ARTICLE = {
 
         return { success : true, message : "POST SUCCESSFULLY!"};
     }
-}
+};
+
+export const DELETE_ARTICLE = {
+    type : MessageType,
+    args : {
+        password : { type : GraphQLString }
+    },
+    async resolve(parent : any, password : string){
+        await Articles.delete(password);
+
+        return { success : true, message : "DELETE SUCCESSFULLY"}
+    }
+};

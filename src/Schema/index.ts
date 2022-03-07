@@ -7,7 +7,7 @@ import { GET_ALL_USERS } from './Queries/User';
 import { GET_ALL_CATEGORIES } from './Queries/Categories';
 import { GET_ALL_ARTICLES, GET_ALL_CATE_ARTICLES, GET_ARTICLE } from './Queries/Articles';
 import { CREATE_USER, DELETE_USER, UPDATE_PASSWORD } from './Mutations/User';
-import { POST_ARTICLE } from './Mutations/Articles';
+import { POST_ARTICLE, DELETE_ARTICLE } from './Mutations/Articles';
 import { ADD_CATEGORY } from './Mutations/Category';
 
 const RootQuery = new GraphQLObjectType({
@@ -28,7 +28,8 @@ const Mutation = new GraphQLObjectType({
         deleteUser : DELETE_USER,
         updatePassword : UPDATE_PASSWORD,
         postArticle : POST_ARTICLE,
-        addCategory : ADD_CATEGORY
+        addCategory : ADD_CATEGORY,
+        deleteArticle : DELETE_ARTICLE,
     }
 })
 

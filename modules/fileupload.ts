@@ -35,7 +35,8 @@ export class AWSS3Uploader implements ServerFileUploads.IUploader {
                 .upload({
                     Bucket : this.config.destinationBucketName,
                     Key : key,
-                    Body : pass
+                    Body : pass,
+                    ContentType : 'image/jpeg',
                 }). promise()
         };
     }

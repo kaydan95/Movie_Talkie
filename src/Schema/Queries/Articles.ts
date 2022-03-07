@@ -33,6 +33,8 @@ export const GET_ARTICLE = {
         id : {type : GraphQLID}
     },
     resolve(root:any, id:any){
-        return Articles.findOne({id});
+        return Articles.findOne({
+            where : id
+        });
     }
 }
