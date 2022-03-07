@@ -42,11 +42,62 @@ export const POST_ARTICLE = {
 export const DELETE_ARTICLE = {
     type : MessageType,
     args : {
+        id : { type : GraphQLID},
         password : { type : GraphQLString }
     },
-    async resolve(parent : any, password : string){
-        await Articles.delete(password);
+    async resolve(parent : any, args : any){
 
-        return { success : true, message : "DELETE SUCCESSFULLY"}
+        let { id, password } = args;
+
+        const article = await Articles.findOne({id : id});
+
+        if(!article) {
+            throw new Error("SOMETHING IS WRONG...")
+        }
+
+        const real_pw = article.password;
+        const real_id = article.id;
+
+        // console.log(id, real_id, password, real_pw);
+        // id = parseInt(id);
+        // console.log(id, real_id, password, real_pw);
+
+        if(parseInt(id) === real_id && password === real_pw) {
+            await Articles.delete({id : id});
+
+            return { success : true, message : "DELETE SUCCESSFULLY"}
+        } else {
+            return { success : false, message : "PASSWORD DOES NOT MATCH!"}
+        }
     }
 };
+
+
+// 수정할 것
+// export const UPDATE_ARTICLE = {
+//     type : MessageType,
+//     args : {
+//         password : { type : GraphQLString }
+//     },
+//     async resolve(parent : any, args : any){
+
+//         const typed_password  = await args.password;
+//         const pw_db = await Articles.findOne({password : typed_password});
+
+//         if(!pw_db){
+//             throw new Error("THAT PASSWORD DOESN'T EXIST")
+//         }
+
+//         const real_pw = pw_db.password;
+
+//         if(real_pw === typed_password){
+
+//             await Articles.delete(typed_password);
+            
+//             return { success : true, message : "DELETE SUCCESSFULLY"}
+
+//         } else {
+//             throw new Error("PASSWORD DOES NOT MATCH!");
+//         }
+//     }
+// };
