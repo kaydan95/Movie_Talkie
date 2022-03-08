@@ -1,10 +1,12 @@
-import { GraphQLString, GraphQLID } from "graphql";
+import { GraphQLString, GraphQLID, graphqlSync } from "graphql";
 import { Articles } from "../../Entities/Articles"
 import { FileUploadType } from "../TypeDefs/File";
 import { MessageType } from "../TypeDefs/Messages";
 import { AWSS3Uploader } from "../../../modules/fileupload";
+import { resolve } from "path/posix";
 
 
+// 게시글 작성 (postArticle)
 export const POST_ARTICLE = {
     type : MessageType,
     args : {
@@ -39,6 +41,9 @@ export const POST_ARTICLE = {
     }
 };
 
+
+
+// 게시글 삭제 (deleteArticle)
 export const DELETE_ARTICLE = {
     type : MessageType,
     args : {
@@ -73,31 +78,47 @@ export const DELETE_ARTICLE = {
 };
 
 
-// 수정할 것
-// export const UPDATE_ARTICLE = {
-//     type : MessageType,
-//     args : {
-//         password : { type : GraphQLString }
-//     },
-//     async resolve(parent : any, args : any){
 
-//         const typed_password  = await args.password;
-//         const pw_db = await Articles.findOne({password : typed_password});
+// 게시글 수정 (updateArticle)
+export const UPDATE_ARTICLE = {
+    type : MessageType,
+    args : {
+        id : { type : GraphQLID },
+        confirmPassword : { type : GraphQLString },
+        editTitle : { type : GraphQLString },
+        editContext : { type : GraphQLString },
+        editImg_file : { type : FileUploadType },
+    },
+    async resolve(parent : any, args : any){
+        let { id, confirmPassword, editTitle, editContext, editImg_file } = args;
 
-//         if(!pw_db){
-//             throw new Error("THAT PASSWORD DOESN'T EXIST")
-//         }
+        const article = await Articles.findOne({id : id});
 
-//         const real_pw = pw_db.password;
+        const s3Uploader = new AWSS3Uploader({ 
+            accessKeyId : process.env.AWS_ACCESS_KEY,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            region: process.env.REGION,
+            destinationBucketName: 'crud-movie-img'
+        });
 
-//         if(real_pw === typed_password){
+        const editImg_file_url = (await s3Uploader.singleFileUploadResolver(editImg_file)).url;
 
-//             await Articles.delete(typed_password);
-            
-//             return { success : true, message : "DELETE SUCCESSFULLY"}
+        console.log(editImg_file_url);
 
-//         } else {
-//             throw new Error("PASSWORD DOES NOT MATCH!");
-//         }
-//     }
-// };
+        const id_db = article?.id;
+        const pw_db = article?.password;
+
+        if(parseInt(id) === id_db && confirmPassword === pw_db) {
+            const new_article = await Articles.update(id_db, {title : editTitle, context : editContext, img_file : editImg_file_url});
+
+            console.log(new_article.affected);
+
+            const check_article = await Articles.findOne({id : id});
+            console.log(check_article);
+
+            return { success : true, message : "UPDATED"}
+        } else {
+            return { success : false, message : "UPDATED ERROR"}
+        }
+    }
+};

@@ -47,7 +47,11 @@ export const UPDATE_PASSWORD = {
         const userPassword = user?.password;
 
         if(oldPassword === userPassword){
-            await Users.update({username : username}, {password : newPassword});
+            const new_user = await Users.update({username : username}, {password : newPassword});
+
+            console.log(new_user.affected);
+
+            console.log({username : username}, {password : newPassword});
 
             return { success : true, message : "PASSWORD UPDATED"};
         } else {
