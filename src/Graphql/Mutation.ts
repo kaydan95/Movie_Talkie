@@ -91,6 +91,28 @@ export const DELETE_ARTICLE = gql`
 
 `
 
+export const UPDATE_ARTICLE = gql`
+
+    mutation updateArticle(
+        $id : ID!
+        $confirmPassword : String!
+        $editTitle : String!
+        $editContext : String!
+        $editImg_file : FileUpload
+    ) {
+        updateArticle(
+            id : $id
+            confirmPassword : $confirmPassword
+            editTitle : $editTitle
+            editContext : $editContext
+            editImg_file : $editImg_file
+        ) {
+            message
+        }
+    }
+
+`
+
 export const ADD_CATEGORY = gql`
     
     mutation addCategory(

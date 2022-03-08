@@ -2,11 +2,11 @@ import { useQuery, useMutation } from '@apollo/client';
 import React from 'react';
 import { useState } from 'react';
 import { GET_ARTICLE } from '../Graphql/Queries';
-import { DELETE_ARTICLE } from '../Graphql/Mutation'
+import { DELETE_ARTICLE, UPDATE_ARTICLE } from '../Graphql/Mutation'
 
 function Article() {
 
-    let article_id = 3;
+    let article_id = 9;
 
     const [articles, setArticles] = useState({
         title : " ",
@@ -41,6 +41,7 @@ function Article() {
 
     function handleChange(event:any) {
         const { name , value } = event.target
+        console.log(name, value);
         setArticles({
             ...articles,
             [name] : value
@@ -51,22 +52,52 @@ function Article() {
 
     const  [ handleDelete, {error : deleteError} ]  = useMutation(DELETE_ARTICLE);
 
+    // const [newPassword, setNewPassword] = useState(" ");
+
+    const [editImg_file, setFile] = useState<File>();
+
+    const fileUpload = (event:React.ChangeEvent<HTMLInputElement>) => {
+        if(!event.target.files){
+            return;
+        }
+
+        console.log(event.target.files[0]);
+
+        setFile(event.target.files[0]);
+    }
+
+    const  [ handleUpdate, {error : updateError} ]  = useMutation(UPDATE_ARTICLE);
+
     return (
         <div>
             <h1>Here is Articles</h1>
-            <input type="text" onChange={(event)=>{
+            <input type="text" placeholder="veryfiy your pw" onChange={(event)=>{
                 confirmPassword(event?.target.value);
             }}></input>
-            <button onClick={()=>{
+            <button onClick={() => {
                 handleDelete({variables : {id : article_id, password : password}});
-
             }}>Delete Article</button><br/>
-            <button>Edit Article</button>
+
+            {/* <input type="text" placeholder="set your new pw" onChange={(event)=>{
+                setNewPassword(event?.target.value);
+            }}></input> */}
+            <button onClick={() => {
+                console.log(articles.title, articles.context, editImg_file);
+                handleUpdate({
+                    variables : {
+                        id : article_id,
+                        confirmPassword : password,
+                        editTitle : articles.title,
+                        editContext : articles.context,
+                        editImg_file : editImg_file
+                    }
+                });
+            }}>Edit Article</button>
             <div>
                 {articles && (<div>
                     <span>title : <input name="title" value={articles.title} onChange={handleChange}/></span><br/>
                     <span>context : <input name="context" value={articles.context} onChange={handleChange}/></span><br/>
-                    <img src={articles.img_file}/><br/>
+                    <input type = "file" onChange={fileUpload}></input><img src={articles.img_file}/><br/>
                     <span>username : <input name="username" value={articles.username} onChange={handleChange}/></span><br/>
                     <span>created at : <input name="createdAt" value={articles.createdAt} onChange={handleChange}/></span>
                 </div>)}
