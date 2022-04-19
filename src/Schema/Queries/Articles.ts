@@ -1,4 +1,4 @@
-import { GraphQLID, GraphQLList, GraphQLObjectType, GraphQLScalarType } from "graphql";
+import { GraphQLID, GraphQLList } from "graphql";
 import { ArticleType } from "../TypeDefs/Article";
 import { Articles } from "../../Entities/Articles";
 import _ from "lodash";

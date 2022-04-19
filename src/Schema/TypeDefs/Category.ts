@@ -6,7 +6,6 @@ export const CategoryType = new GraphQLObjectType({
     fields : () => ({
         id : {type : GraphQLID},
         category_title : {type : GraphQLString},
-        category_img : {type : GraphQLString},
         articles :  {type : ArticleType}
     })
 })

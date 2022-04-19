@@ -3,7 +3,6 @@ import { Articles } from "../../Entities/Articles"
 import { FileUploadType } from "../TypeDefs/File";
 import { MessageType } from "../TypeDefs/Messages";
 import { AWSS3Uploader } from "../../../modules/fileupload";
-import { resolve } from "path/posix";
 
 
 // 게시글 작성 (postArticle)
