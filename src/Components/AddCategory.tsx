@@ -6,18 +6,7 @@ import { ADD_CATEGORY } from '../Graphql/Mutation';
 function AddCategory() {
 
     const [category_title, setCateTitle] = useState("");
-    const [category_img, setCateImgFile] = useState<File>();
-
-
-    const fileUpload = (event:React.ChangeEvent<HTMLInputElement>) => {
-        if(!event.target.files){
-            return;
-        }
-        
-        console.log(event.target.files[0]);
-
-        setCateImgFile(event.target.files[0]);
-    }
+    const [category_id, setCateId] = useState(0);
 
     const [addCategory, {error}] = useMutation(ADD_CATEGORY);
 
@@ -25,12 +14,14 @@ function AddCategory() {
         <div>
             <h3>Add Category</h3>
             <div>
+                <input type="number" placeholder='category id' onChange={(event) => {
+                    setCateId(+event.target.value);
+                }} />
                 <input type="text" placeholder="category name" onChange={(event) => {
                     setCateTitle(event.target.value);
                 }} />
-                <input type="file" name="file" id="file" onChange={fileUpload}/>
                 <button onClick={() => {
-                    addCategory({variables : {category_title:category_title, category_img:category_img}});
+                    addCategory({variables : {id:category_id, category_title:category_title}});
                 }}>Add Category</button>
             </div>
         </div>

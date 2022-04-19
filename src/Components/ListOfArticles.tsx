@@ -1,5 +1,4 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
-import React from 'react';
 import { useState } from 'react';
 import {GET_ARTICLE} from '../Graphql/Queries';
 

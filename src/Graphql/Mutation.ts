@@ -116,12 +116,12 @@ export const UPDATE_ARTICLE = gql`
 export const ADD_CATEGORY = gql`
     
     mutation addCategory(
+        $id : ID!
         $category_title : String!
-        $category_img : FileUpload!
     ) {
         addCategory(
+            id : $id
             category_title : $category_title
-            category_img : $category_img 
         ) {
             message
         }

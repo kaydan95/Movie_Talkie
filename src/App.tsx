@@ -13,6 +13,7 @@ import PostArticle from './Components/PostArticle';
 import AddCategory from './Components/AddCategory';
 import ListOfArticles from './Components/ListOfArticles';
 import Article from './Components/Article';
+import MovieSearchResult from './Components/MovieSearchResult';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
         <Banner/>
         <Routes>
           <Route path="/" element={<Main/>}></Route>
+          <Route path="/moviesearch" element={<MovieSearchResult/>}></Route>
           <Route path="/createuser" element={<CreateUser/>}></Route>
           <Route path="/listofusers" element={<ListOfUsers/>}></Route>
           <Route path="/updatepw" element={<UpdatePw/>}></Route>
