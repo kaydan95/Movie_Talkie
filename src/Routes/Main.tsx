@@ -1,10 +1,8 @@
-import React from 'react'
-import MainStyle from '../Styles/main.module.css';
 import {GET_ALL_USER} from '../Graphql/Queries';
 import {useNavigate} from 'react-router-dom';
-
-import ListOfUsers from './ListOfUsers';
+import ListOfUsers from '../Components/ListOfUsers';
 import {useQuery} from '@apollo/client';
+import { MainWrapper } from '../Styles/MainStyle';
 
 function Main() {
     let navigate = useNavigate();
@@ -12,7 +10,7 @@ function Main() {
     const { data } = useQuery(GET_ALL_USER);
 
     return (
-        <div className={MainStyle.mainWrapper}>
+        <MainWrapper>
             <h1>THIS IS MAIN PAGE</h1>
 
 
@@ -25,7 +23,7 @@ function Main() {
             <button onClick={()=>{
                 navigate("/createuser");
             }}> go to detail page </button>
-        </div>
+        </MainWrapper>
     )
 }
 
