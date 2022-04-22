@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components'
-import { GET_MOVIE_SEARCH_RESULTS } from '../Graphql/Queries';
+import { GET_MOVIE_SEARCH_RESULTS, GET_SEARCHED_CATEGORIES } from '../Graphql/Queries';
 import { makeImage } from '../util';
 
 const ResultTitle = styled.h1`
@@ -99,76 +99,75 @@ const MovieInfo = styled.div`
     font-weight: bold;
 `
 
-interface IMovieType {
+const NonResultBox = styled.div`
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    width : 100%;
+    height : 70vh;
+    p {
+        font-size: 2rem;
+        color: ${props => props.theme.base.main};
+    }
+`
+
+export interface ICateType {
     id : number;
-    backdrop_path : string;
-    original_language : string;
-    original_title :string;
-    overview : string;
-    release_date : string;
-    title : string;
+    category_title : string;
+    category_releaseDate : string;
+    category_imgPath :string;
 }
-
-interface ISearchType {
-    results : IMovieType[]
-}
-
 
 
 function MovieSearch() {
 
-
-
     const loaction = useLocation();
     const keyword = new URLSearchParams(loaction.search).get("keyword");
 
-    const [movieKeyword, setKeyword] = useState(keyword);
-
-    console.log(keyword);
-
-    const [searchPage, setPage] = useState(1);
+    const [searchKeyword, setKeyword] = useState(keyword);
 
     useEffect(() => {
         setKeyword(keyword);
     },[keyword])
 
-    const { loading, error, data : movieSearch } = useQuery(GET_MOVIE_SEARCH_RESULTS, {
-        variables : {keyword : movieKeyword, page : searchPage},
+    const { data : cateSearch } = useQuery(GET_SEARCHED_CATEGORIES, {
+        variables : {category_title : searchKeyword},
     });
 
-    const movies = movieSearch?.getMovieSearchResults?.results;
+    const movies = cateSearch?.getAllSearchedCategories;
+
+    console.log(movies);
 
     return (
         <>
-            <ResultTitle>Here are All Results of <span>"{movieKeyword}"</span></ResultTitle>
-            <MovieSearchWrapper>
-                {movies?.map((movie:IMovieType) => (
-                        <MovieBox>
-                            {movie.backdrop_path !== null ? (
-                                <MovieImg bgphoto={makeImage(movie.backdrop_path, "w300")}>
-                                    <span>
-                                        {movie.original_language}
-                                    </span>
-                                </MovieImg>
-                            ) : (
-                                <NonMovieImg>
-                                    <p>NO IMAGE</p>
-                                    <span>
-                                        {movie.original_language}
-                                    </span>
-                                </NonMovieImg>
-                            )}
+            <ResultTitle>Here are All Results of <span>"{searchKeyword}"</span></ResultTitle>
+                {movies?.length !== 0 ? (
+                    <MovieSearchWrapper>
+                        {movies?.map((movie:ICateType) => (
+                            <MovieBox>
+                                {movie.category_imgPath !== null ? (
+                                    <MovieImg bgphoto={makeImage(movie.category_imgPath, "w300")}/>
+                                ) : (
+                                    <NonMovieImg>
+                                        <p>NO IMAGE</p>
+                                    </NonMovieImg>
+                                )}
 
-                        <MovieInfo>
-                            {movie.release_date !== null ? (
-                                <span>{movie.original_title} ({movie.release_date?.slice(0,4)})</span>
-                            ) : (
-                                <span>{movie.original_title}</span>
-                            )}
-                        </MovieInfo>
-                    </MovieBox> 
-                ))}
-            </MovieSearchWrapper>
+                                <MovieInfo>
+                                    {movie.category_releaseDate !== null ? (
+                                        <span>{movie.category_title} ({movie.category_releaseDate?.slice(0,4)})</span>
+                                    ) : (
+                                        <span>{movie.category_title}</span>
+                                    )}
+                                </MovieInfo>
+                            </MovieBox> 
+                        ))}
+                    </MovieSearchWrapper>
+                ) : (
+                    <NonResultBox>
+                        <p style={{textAlign : "center"}}>There is no matching Movies..</p>
+                    </NonResultBox>
+                )}
         </> 
     )
 }

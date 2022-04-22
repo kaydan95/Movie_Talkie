@@ -2,7 +2,6 @@ import {gql} from "@apollo/client";
 
 // 테스트용
 export const GET_ALL_USER = gql`
-
     query getAllUsers {
         getAllUsers {
             id
@@ -10,10 +9,39 @@ export const GET_ALL_USER = gql`
             username
         }
     }
-
 `
 
 // 필요한 쿼리문
+
+// 모든 카테고리 호출
+export const GET_ALL_CATEGORIES = gql`
+    query getAllCategories {
+        getAllCategories {
+            id
+            category_title
+            category_releaseDate
+            category_imgPath
+        }
+    }
+`
+
+// 카테고리 검색 후 해당 카테고리 호출
+export const GET_SEARCHED_CATEGORIES = gql`
+    query getAllSearchedCategories(
+        $category_title : String!
+    ) {
+        getAllSearchedCategories(
+            category_title : $category_title
+        ) {
+            id
+            category_title
+            category_releaseDate
+            category_imgPath
+        }
+    }
+`
+
+
 // 영화 카테고리 상관 없이 모든 게시물 호출
 export const GET_ALL_ARTICLES = gql`
     query getAllArticles {
@@ -70,6 +98,29 @@ export const GET_MOVIE_SEARCH_RESULTS = gql`
                 overview
                 release_date
                 title
+            }
+        }
+    }
+`
+
+//  영화 디테일 정보
+export const GET_MOVIE_DETAIL = gql`
+    query getMovieDetail(
+        $id : Int!
+    ) {
+        getMovieDetail(
+            id : $id
+        ) {
+            id
+            backdrop_path
+            original_language
+            original_title
+            overview
+            release_date
+            runtime
+            title
+            genres {
+                name
             }
         }
     }

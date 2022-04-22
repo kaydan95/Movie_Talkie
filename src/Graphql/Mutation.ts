@@ -118,10 +118,14 @@ export const ADD_CATEGORY = gql`
     mutation addCategory(
         $id : ID!
         $category_title : String!
+        $category_releaseDate : String
+        $category_imgPath : String
     ) {
         addCategory(
             id : $id
             category_title : $category_title
+            category_releaseDate : $category_releaseDate
+            category_imgPath : $category_imgPath
         ) {
             message
         }

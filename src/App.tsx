@@ -6,7 +6,7 @@ import ListOfUsers from './Components/ListOfUsers';
 import UpdatePw from './Components/UpdatePw';
 import Main from './Routes/Main';
 import PostArticle from './Components/PostArticle';
-import AddCategory from './Components/AddCategory';
+import CreateCategory from './Routes/CreateCategory';
 import ListOfArticles from './Components/ListOfArticles';
 import Article from './Components/Article';
 import MovieSearch from './Routes/MovieSearch';
@@ -36,7 +36,7 @@ function App() {
           <Route path="/listofusers" element={<ListOfUsers/>}></Route>
           <Route path="/updatepw" element={<UpdatePw/>}></Route>
           <Route path="/postarticle" element={<PostArticle/>}></Route>
-          <Route path="/addCategory" element={<AddCategory/>}></Route>
+          <Route path="/createCategory" element={<CreateCategory/>}></Route>
           <Route path="/lisofarticles" element={<ListOfArticles/>}></Route>
           <Route path="/article" element={<Article/>}></Route>
         </Routes>

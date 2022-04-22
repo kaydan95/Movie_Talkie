@@ -40,6 +40,7 @@ export const SearchSection = styled.form`
         font-size : 1rem;
     }
     input {
+        width: 100%;
         background-color: transparent;
         color : ${props => props.theme.base.main};
         border : none;
