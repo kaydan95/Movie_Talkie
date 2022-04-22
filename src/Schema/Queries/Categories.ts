@@ -1,7 +1,7 @@
 import { GraphQLID, GraphQLInt, GraphQLList, GraphQLString } from "graphql";
 import { CategoryType } from "../TypeDefs/Category";
 import { Category } from "../../Entities/Category";
-import { MovieCredits, MovieDetailType, MovieSearchResults, MovieType } from "../TypeDefs/MovieApi";
+import { MovieCredits, MovieDetailType, MovieSearchResults } from "../TypeDefs/MovieApi";
 import { fetch as Fetch } from 'cross-fetch';
 
 // 모든 카테고리 다 호출 -> 메인화면
@@ -9,6 +9,21 @@ export const GET_ALL_CATEGORIES = {
     type : new GraphQLList(CategoryType),
     resolve(root:any, args:any){
         return Category.find();
+    }
+}
+
+// 특정 카테고리 검색 
+export const GET_SEARCHED_CATEGORIES = {
+    type : new GraphQLList(CategoryType),
+    args : {
+        category_title : {type : GraphQLString}
+    },
+    async resolve(root : any, args : { category_title : string }) {
+        return Category.find().then((cates) => cates.filter((cate) => {
+            if(cate.category_title.match(new RegExp(args.category_title, "i"))) {
+                return cate;
+            }
+        }));
     }
 }
 

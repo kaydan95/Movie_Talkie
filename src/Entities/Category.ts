@@ -10,6 +10,12 @@ export class Category extends BaseEntity {
     @Column()
     category_title! : string;
 
+    @Column()
+    category_releaseDate? : string;
+
+    @Column()
+    category_imgPath? : string;
+
     @OneToMany(() => Articles, article => article.category)
     articles? : Articles[];
 }
