@@ -57,6 +57,7 @@ export const MenuSection = styled.div`
     /* justify-content: flex-end; */
     align-items: center;
     background-color: transparent;
+    position: relative;
     .barsIcon {
         background-color: transparent;
         font-size: 1.3rem;
@@ -65,6 +66,40 @@ export const MenuSection = styled.div`
             color : ${props => props.theme.base.subOne};
             cursor: pointer;
             transition: 0.3s;
+        }
+    }
+`
+
+export const MenuModal = styled(motion.div)`
+    width : 80px;
+    height : fit-content;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top : 50px;
+    right : 25px;
+    justify-content: center;
+    border-radius: 5px;
+    overflow: hidden;
+    align-items: center;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+    background-color: ${props => props.theme.base.background};
+    span {
+        width : 100%;
+        height : 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${props => props.theme.base.main};
+        &:hover {
+            transition: 0.2s;
+            font-weight: bold;
+            cursor: pointer;
+            color : ${props => props.theme.base.main};
+            background-color: ${props => props.theme.base.subTwo};
+        }
+        &:first-child {
+            border-bottom: 0.6px solid rgba(0, 0, 0, 0.2);
         }
     }
 `

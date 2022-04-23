@@ -5,12 +5,14 @@ import CreateUser from './Components/CreateUser';
 import ListOfUsers from './Components/ListOfUsers';
 import UpdatePw from './Components/UpdatePw';
 import Main from './Routes/Main';
-import PostArticle from './Components/PostArticle';
+import PostArticle from './Routes/PostArticle';
 import CreateCategory from './Routes/CreateCategory';
-import ListOfArticles from './Components/ListOfArticles';
+import Category from './Routes/Category';
 import Article from './Components/Article';
 import MovieSearch from './Routes/MovieSearch';
 import Header from './Components/Header';
+import Login from './Routes/Login';
+import Join from './Routes/Join';
 
 function App() {
 
@@ -32,12 +34,16 @@ function App() {
         <Routes>
           <Route path="/" element={<Main/>}></Route>
           <Route path="/moviesearch" element={<MovieSearch/>}></Route>
+          <Route path="/createCategory" element={<CreateCategory/>}></Route>
+          <Route path="/category/:cateId" element={<Category/>}></Route>
+          <Route path="/postarticle/:cateId" element={<PostArticle/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/join" element={<Join/>}></Route>
+
+          
           <Route path="/createuser" element={<CreateUser/>}></Route>
           <Route path="/listofusers" element={<ListOfUsers/>}></Route>
           <Route path="/updatepw" element={<UpdatePw/>}></Route>
-          <Route path="/postarticle" element={<PostArticle/>}></Route>
-          <Route path="/createCategory" element={<CreateCategory/>}></Route>
-          <Route path="/lisofarticles" element={<ListOfArticles/>}></Route>
           <Route path="/article" element={<Article/>}></Route>
         </Routes>
       </ApolloProvider>

@@ -25,6 +25,10 @@ function Main() {
 
     const cateList = AllCates?.getAllCategories;
 
+    const goTheCate = (cateId : number) => {
+        navigate(`/category/${cateId}`);
+    }
+
     return (
         <MainWrapper>
             <MainTitle>Here are All Categories now we are talking about</MainTitle>
@@ -33,7 +37,7 @@ function Main() {
                     <FontAwesomeIcon icon={faPlus} className="plusIcon"/>
                 </CreateCategoryBox>
                 {cateList?.map((cate:ICateType) => (
-                    <CateBox key={cate.id}>
+                    <CateBox key={cate.id} onClick={() => goTheCate(cate.id)}>
                         <CategoryBoxImg bgphoto={makeImage(cate.category_imgPath, "w500")}/>
                         <CategoryInfo>
                             {cate.category_title} ({cate.category_releaseDate?.slice(0,4)})

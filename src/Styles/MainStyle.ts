@@ -53,16 +53,16 @@ export const CateBox = styled(CreateCategoryBox)`
 
 export const CategoryBoxImg = styled.div<{bgphoto : string}>`
     width: 100%;
-    height : 150px;
+    height : 160px;
     background-image: url(${props => props.bgphoto});
-    background-position: 50% 30%;
+    background-position: 50% 40%;
     background-repeat: no-repeat;
 
 `
 
 export const CategoryInfo = styled.div`
     width : 100%;
-    height : calc(230px - 150px);
+    height : calc(230px - 160px);
     padding : 20px;
     display: flex;
     align-items: center;

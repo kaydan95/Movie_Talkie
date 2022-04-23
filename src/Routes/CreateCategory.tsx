@@ -27,7 +27,7 @@ interface ICateSearchForm {
     moviename : string;
 }
 
-interface IGenre {
+export interface IGenre {
     name : string;
 }
 
@@ -115,9 +115,9 @@ function CreateCategory() {
                             </FormBoxWrapper>
                             <div style={{display : 'inline-flex'}}>
                                 <FormBoxWrapper style={{width : '35%', marginRight : '10px'}}>
-                                    <p>Release Year</p>
+                                    <p>Release Date</p>
                                     <FormBox>
-                                        <input readOnly placeholder='Release Year' value={Detail?.release_date}/>
+                                        <input readOnly placeholder='Release Date' value={Detail?.release_date}/>
                                     </FormBox>
                                 </FormBoxWrapper>
                                 <FormBoxWrapper style={{width : '35%', marginRight : '10px'}}>

@@ -26,7 +26,6 @@ export const CateFormBox = styled.div`
     /* border : 1px solid blue; */
     border-radius: 15px;
     overflow: hidden;
-    overflow: hidden;
     height : 510px;
     width : 100%;
     display: flex;
@@ -47,14 +46,6 @@ export const CateInfoForm = styled.div`
     display: flex;
     flex-direction: column;
     padding : 20px;
-`
-
-export const CateForm = styled.div`
-    border : 1px solid ${props => props.theme.base.subOne};
-    border-radius: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 `
 
 export const FormBoxWrapper = styled.div`

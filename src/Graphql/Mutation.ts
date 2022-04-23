@@ -53,7 +53,7 @@ export const UPDATE_PASSWORD = gql`
 export const POST_ARTICLE = gql`
     
     mutation postArticle(
-        $username : String!
+        $userid : ID!
         $password : String!
         $title : String!
         $context : String!
@@ -61,7 +61,7 @@ export const POST_ARTICLE = gql`
         $category : ID!
     ) {
         postArticle(
-            username : $username
+            userid : $userid
             password : $password 
             title : $title
             context : $context

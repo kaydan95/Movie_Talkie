@@ -126,3 +126,26 @@ export const GET_MOVIE_DETAIL = gql`
     }
 `
 
+//  영화 cast, crew 정보
+export const GET_MOVIE_CREDITS = gql`
+    query getMovieCredits(
+        $id : Int!
+    ) {
+        getMovieCredits(
+            id : $id
+        ) {
+            id
+            cast {
+                name
+                original_name
+            }
+            crew {
+                name
+                original_name
+                department
+                job
+            }
+        }
+    }
+`
+
