@@ -38,3 +38,18 @@ export const GET_ARTICLE = {
         });
     }
 }
+
+// 해당 유저가 작성한 포스트 다 들고오기
+export const GET_USERS_ARTICLES = {
+    type : new GraphQLList(ArticleType),
+    args : {
+        userid : {type : GraphQLID}
+    },
+    resolve(root:any, userid:any){
+        return Articles.find({
+            // Cannot find alias for relation at category 오류 고침..!
+            relations : ['userid'],
+            where : userid
+        });
+    }
+}

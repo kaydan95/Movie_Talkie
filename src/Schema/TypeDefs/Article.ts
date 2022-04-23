@@ -4,7 +4,7 @@ export const ArticleType = new GraphQLObjectType({
     name : "Article",
     fields : () => ({
         id : {type : GraphQLID},
-        username : {type : GraphQLString},
+        userid : {type : GraphQLID},
         password : {type : GraphQLString},
         title : {type : GraphQLString},
         context : {type : GraphQLString},

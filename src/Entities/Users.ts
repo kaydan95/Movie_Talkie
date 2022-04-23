@@ -1,10 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Articles } from "./Articles";
 
 @Entity()
 export class Users extends BaseEntity {
 
     // 고유 id 생성
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn({ type: "int", name: "id" })
     id! : number;
 
     @Column()
@@ -15,4 +16,7 @@ export class Users extends BaseEntity {
 
     @Column()
     password! : string;
+
+    @OneToMany(() => Articles, article => article.userid)
+    articles? : Articles[];
 }

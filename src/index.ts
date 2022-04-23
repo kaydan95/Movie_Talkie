@@ -20,7 +20,7 @@ const main = async () => {
         logging : false,
         // 코드로 entity를 만들었을 때 자동으로 mysql workbench에 동기화 해서 table 생성하는 부분
         // true 로 해놓은 채로 계속 저장하면 table 내에 entity 가 계속 생기니까 바꿀때만 true, 만들고 나면 false 로 바꿔줄것
-        synchronize : false,   
+        synchronize : false,  
         entities : [Articles, Category, Users]
     });
 

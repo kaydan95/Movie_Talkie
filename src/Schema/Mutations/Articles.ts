@@ -9,7 +9,7 @@ import { AWSS3Uploader } from "../../../modules/fileupload";
 export const POST_ARTICLE = {
     type : MessageType,
     args : {
-        username : {type : GraphQLString},
+        userid : {type : GraphQLID},
         password : {type : GraphQLString},
         title : {type : GraphQLString},
         context : {type : GraphQLString},
@@ -21,7 +21,7 @@ export const POST_ARTICLE = {
         // 그 resolver 로 부터 받은 url을 최종 entity에 업로드 해야함
         // console.log(await args);
 
-        const {username, password, title, context, img_file, category} = await args;
+        const {userid, password, title, context, img_file, category} = await args;
 
         const s3Uploader = new AWSS3Uploader({ 
             accessKeyId : process.env.AWS_ACCESS_KEY,
@@ -34,7 +34,7 @@ export const POST_ARTICLE = {
 
         console.log(img_file_url);
 
-        await Articles.insert({username, password, title, context, img_file : img_file_url, category});
+        await Articles.insert({userid, password, title, context, img_file : img_file_url, category});
 
         return { success : true, message : "POST SUCCESSFULLY!"};
     }

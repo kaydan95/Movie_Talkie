@@ -2,18 +2,30 @@ import { GraphQLID, GraphQLString} from "graphql";
 import { UserType } from "../TypeDefs/User";
 import { MessageType } from "../TypeDefs/Messages";
 import { Users } from "../../Entities/Users";
+import bycript from 'bcryptjs';
+
+interface IUser {
+    id : number;
+    name : string;
+    username : string;
+    password : string;
+}
 
 export const CREATE_USER = {
     type : UserType,
     args :{
+        id : {type : GraphQLID},
         name : { type : GraphQLString },
         username : { type : GraphQLString },
         password : { type : GraphQLString },
     },
-    async resolve(parent:any, args:any){
-        const { name, username, password } = args;
-        await Users.insert({name, username, password});
-        return args;
+    async resolve(parent:any, args:IUser){
+        const { id, name, username, password } = args;
+        const hashedPassword = await bycript.hash(password, 8);
+        await Users.insert({id, name, username, password:hashedPassword});
+        return {
+            id, name, username
+        };
     }
 };
 
