@@ -3,10 +3,10 @@
 
 
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
-import { GET_ALL_USERS } from './Queries/User';
+import { GET_ALL_USERS, GET_USER } from './Queries/User';
 import { GET_ALL_CATEGORIES, GET_MOVIE_SEARCH_RESULTS, GET_MOVIE_DETAIL, GET_MOVIE_CREDITS, GET_SEARCHED_CATEGORIES } from './Queries/Categories';
 import { GET_ALL_ARTICLES, GET_ALL_CATE_ARTICLES, GET_ARTICLE, GET_USERS_ARTICLES } from './Queries/Articles';
-import { CREATE_USER, DELETE_USER, UPDATE_PASSWORD } from './Mutations/User';
+import { CREATE_USER, DELETE_USER, UPDATE_PASSWORD, LOGIN, CREATE_NEW_ACCESSTOKEN } from './Mutations/User';
 import { POST_ARTICLE, DELETE_ARTICLE, UPDATE_ARTICLE } from './Mutations/Articles';
 import { ADD_CATEGORY } from './Mutations/Category';
 
@@ -14,6 +14,7 @@ const RootQuery = new GraphQLObjectType({
     name : "RootQuery",
     fields : {
         getAllUsers : GET_ALL_USERS,
+        getUser : GET_USER,
         getArticle : GET_ARTICLE,
         getAllArticles : GET_ALL_ARTICLES,
         getAllCateArticles : GET_ALL_CATE_ARTICLES,
@@ -35,7 +36,9 @@ const Mutation = new GraphQLObjectType({
         postArticle : POST_ARTICLE,
         addCategory : ADD_CATEGORY,
         deleteArticle : DELETE_ARTICLE,
-        updateArticle : UPDATE_ARTICLE
+        updateArticle : UPDATE_ARTICLE,
+        login : LOGIN,
+        createNewAccessToken : CREATE_NEW_ACCESSTOKEN
     }
 })
 

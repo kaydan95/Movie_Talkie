@@ -9,19 +9,23 @@ import { AWSS3Uploader } from "../../../modules/fileupload";
 export const POST_ARTICLE = {
     type : MessageType,
     args : {
-        userid : {type : GraphQLID},
         password : {type : GraphQLString},
         title : {type : GraphQLString},
         context : {type : GraphQLString},
         img_file : {type : FileUploadType},
         category : {type : GraphQLID}
     },
-    async resolve(parent:any, args:any){
+    async resolve(parent:any, args:any, req : any){
         // client 에서 업로드한 파일을 aws 에 올리고 url 을 반환하는 resolver 가 필요 -> AWSS3Uploader
         // 그 resolver 로 부터 받은 url을 최종 entity에 업로드 해야함
         // console.log(await args);
 
-        const {userid, password, title, context, img_file, category} = await args;
+        console.log(req.userId);
+        if(!req.userId) {
+            return null;
+        }
+
+        const {password, title, context, img_file, category} = await args;
 
         const s3Uploader = new AWSS3Uploader({ 
             accessKeyId : process.env.AWS_ACCESS_KEY,
@@ -32,9 +36,9 @@ export const POST_ARTICLE = {
 
         const img_file_url = (await s3Uploader.singleFileUploadResolver(img_file)).url;
 
-        console.log(img_file_url);
+        // console.log(img_file_url);
 
-        await Articles.insert({userid, password, title, context, img_file : img_file_url, category});
+        await Articles.insert({password, title, context, img_file : img_file_url, userid : req.userId, category});
 
         return { success : true, message : "POST SUCCESSFULLY!"};
     }
@@ -102,7 +106,7 @@ export const UPDATE_ARTICLE = {
 
         const editImg_file_url = (await s3Uploader.singleFileUploadResolver(editImg_file)).url;
 
-        console.log(editImg_file_url);
+        // console.log(editImg_file_url);
 
         const id_db = article?.id;
         const pw_db = article?.password;

@@ -19,4 +19,7 @@ export class Users extends BaseEntity {
 
     @OneToMany(() => Articles, article => article.userid)
     articles? : Articles[];
+
+    @Column({ type : "varchar", name : "token"})
+    token? : string;
 }

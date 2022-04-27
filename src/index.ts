@@ -8,9 +8,14 @@ import { Users } from './Entities/Users';
 import { Articles } from './Entities/Articles';
 import { Category } from './Entities/Category';
 import { graphqlUploadExpress } from 'graphql-upload';
+import cookieParser from 'cookie-parser';
+import { verify } from 'jsonwebtoken';
 require('dotenv').config();
 
 const main = async () => {
+
+    const REFRESH_TOKEN_SECRET : any = process.env.REFRESH_TOKEN_SECRET_KEY;
+    const ACCESS_TOKEN_SECRET : any = process.env.ACCESS_TOKEN_SECRET_KEY;
 
     await createConnection({
         type:"mysql",
@@ -24,16 +29,42 @@ const main = async () => {
         entities : [Articles, Category, Users]
     });
 
+    var corsOptions = {
+        origin: 'http://localhost:3000',
+        credentials: true // <-- REQUIRED backend setting
+    };
+
     const app = express()
     app.use(express.urlencoded({extended:true}))
-    app.use(cors())
+    app.use(cors(corsOptions))
     app.use(express.json())
+    app.use(cookieParser()); //위치 중요...!
+    app.use(async(req, _, next) => {
+        if(!req.headers.authorization){
+            const refreshToken = req.cookies["refresh-token"];
+            try {
+                const data = verify(refreshToken, REFRESH_TOKEN_SECRET) as any;
+                (req as any).userId = data.userId;
+            } catch {}
+            next();
+        }
+        if(req.headers.authorization) {
+            const tokenInHeaders = req.headers.authorization?.substring(7);
+            if(tokenInHeaders !== ""){
+                const tokenData = verify(tokenInHeaders, ACCESS_TOKEN_SECRET) as any;
+                // console.log(tokenData);
+                (req as any).userId = tokenData.userId;
+            }
+            next();
+        }
+    });
     app.use("/graphql",
         graphqlUploadExpress({maxFieldSize:10000, maxFiles:3}),
         graphqlHTTP({
         schema,
-        graphiql : true
-    }))
+        graphiql : true,
+    }));
+
 
     app.listen(3001, () => {
         console.log("🚀 Server ready at http://localhost:3001/graphql");

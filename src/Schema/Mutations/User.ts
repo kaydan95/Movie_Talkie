@@ -1,8 +1,13 @@
 import { GraphQLID, GraphQLString} from "graphql";
-import { UserType } from "../TypeDefs/User";
+import { LoginType,  UserToken,  UserType } from "../TypeDefs/User";
 import { MessageType } from "../TypeDefs/Messages";
 import { Users } from "../../Entities/Users";
-import bycript from 'bcryptjs';
+import bcrypt from 'bcryptjs';
+import { sign } from "jsonwebtoken";
+require('dotenv').config();
+
+const ACCESS_TOKEN_SECRET : any = process.env.ACCESS_TOKEN_SECRET_KEY;
+const REFRESH_TOKEN_SECRET : any = process.env.REFRESH_TOKEN_SECRET_KEY;
 
 interface IUser {
     id : number;
@@ -10,6 +15,46 @@ interface IUser {
     username : string;
     password : string;
 }
+
+interface ILogin {
+    name : string;
+    password : string;
+}
+
+interface IToken {
+    id : number;
+    refreshToken : string;
+}
+
+export const CREATE_NEW_ACCESSTOKEN = {
+    type : UserToken,
+    args :{
+        id : {type : GraphQLID},
+        refreshToken : { type : GraphQLString }
+    },
+    async resolve(parent:any, args:IToken){
+        const { id, refreshToken } = args;
+
+        console.log(args)
+
+        if(refreshToken === null) {
+            throw "refreshToken is not available"
+        }
+        const user = await Users.findOne({id : id});
+
+        console.log(refreshToken === user?.token ? true : false)
+
+        if(refreshToken !== user?.token){
+            return null;
+        }
+        if(refreshToken === user?.token){
+            const newAccessToken = sign({userId : user.id}, ACCESS_TOKEN_SECRET, {expiresIn : "15min"});
+            return { 
+                accessToken : newAccessToken
+            };
+        }
+    }
+};
 
 export const CREATE_USER = {
     type : UserType,
@@ -21,7 +66,7 @@ export const CREATE_USER = {
     },
     async resolve(parent:any, args:IUser){
         const { id, name, username, password } = args;
-        const hashedPassword = await bycript.hash(password, 8);
+        const hashedPassword = await bcrypt.hash(password, 8);
         await Users.insert({id, name, username, password:hashedPassword});
         return {
             id, name, username
@@ -71,3 +116,42 @@ export const UPDATE_PASSWORD = {
         }
     }
 };
+
+// 로그인 -> 토큰 두 개 생성
+export const LOGIN = {
+    type : LoginType,
+    args : {
+        name : { type : GraphQLString},
+        password : { type : GraphQLString}
+    },
+    async resolve(parent : any, args : ILogin, {res} : any) {
+        const { name, password } = args;
+
+        const user = await Users.findOne({ name : name });
+
+        if(!user){
+            return null;
+        }
+        else {
+            const valid = await bcrypt.compare(password, user.password);
+            if(!valid) {
+                return null;
+            }
+            else {
+                // 1. 최초로그인의 경우 -> 토크 두개 모두 발금 (accessToken 은 저장 없이 client로 리턴, refreshToken은 쿠키에 저장..?)
+                const accessToken = sign({userId : user.id}, ACCESS_TOKEN_SECRET, {expiresIn : "50min"});
+                const refreshToken = sign({userId : user.id, pw : user.password}, REFRESH_TOKEN_SECRET, {expiresIn : "1d"});
+
+                Users.update(user.id, {token : refreshToken});
+                res.cookie("refresh-token", refreshToken, {httpOnly : true, secure : true});
+
+                return {
+                    user,
+                    accessToken : accessToken
+                }
+            }
+        }
+    }
+}
+
+
