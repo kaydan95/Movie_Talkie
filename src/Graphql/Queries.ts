@@ -13,6 +13,17 @@ export const GET_ALL_USER = gql`
 
 // 필요한 쿼리문
 
+// 현재 로그인한 회원 정보
+export const GET_USER = gql`
+    query getUser {
+        getUser {
+            id
+            token
+        }
+    }
+`
+
+
 // 모든 카테고리 호출
 export const GET_ALL_CATEGORIES = gql`
     query getAllCategories {
@@ -120,6 +131,7 @@ export const GET_MOVIE_DETAIL = gql`
             runtime
             title
             genres {
+                id
                 name
             }
         }

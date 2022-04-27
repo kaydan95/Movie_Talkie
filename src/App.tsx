@@ -19,7 +19,8 @@ function App() {
   const BASE_URL:string = "http://localhost:3001/graphql";
 
   const link = createUploadLink({
-    uri : BASE_URL
+    uri : BASE_URL,
+    credentials : 'include'
   });
 
   const client = new ApolloClient({

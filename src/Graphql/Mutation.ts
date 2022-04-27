@@ -1,7 +1,20 @@
 import {gql} from "@apollo/client";
 
-export const CREATE_USER = gql`
+export const CREATE_NEW_ACCESSTOKEN = gql`
+    mutation createNewAccessToken(
+        $id : ID!
+        $refreshToken : String! 
+        ) {
+            createNewAccessToken(
+            id : $id 
+            refreshToken : $refreshToken 
+            ) {
+                accessToken
+            }
+    }
+`
 
+export const CREATE_USER = gql`
     mutation createUser(
         $name : String! 
         $username : String! 
@@ -17,11 +30,9 @@ export const CREATE_USER = gql`
                 username
             }
     }
-
 `
 
 export const DELETE_USER = gql`
-
     mutation deleteUser(
         $id : ID! ) {
         deleteUser(
@@ -30,11 +41,9 @@ export const DELETE_USER = gql`
                 message
             }
     }
-
 `
 
 export const UPDATE_PASSWORD = gql`
-
     mutation updatePassword(
         $username : String!
         $oldPassword : String!
@@ -47,13 +56,29 @@ export const UPDATE_PASSWORD = gql`
                 message
             }
     }
-
 `
 
+
+export const LOGIN = gql`
+    mutation login(
+        $name : String!
+        $password : String!
+        ) {
+        login(
+            name : $name
+            password : $password
+        ) {
+            user {
+                username
+            }
+        }
+    }
+`
+
+
+
 export const POST_ARTICLE = gql`
-    
     mutation postArticle(
-        $userid : ID!
         $password : String!
         $title : String!
         $context : String!
@@ -61,7 +86,6 @@ export const POST_ARTICLE = gql`
         $category : ID!
     ) {
         postArticle(
-            userid : $userid
             password : $password 
             title : $title
             context : $context
@@ -70,13 +94,10 @@ export const POST_ARTICLE = gql`
         ) {
             message
         }
-    
     }
-
 `
 
 export const DELETE_ARTICLE = gql`
-
     mutation deleteArticle(
         $id : ID!
         $password : String!
@@ -88,11 +109,9 @@ export const DELETE_ARTICLE = gql`
             message
         }
     }
-
 `
 
 export const UPDATE_ARTICLE = gql`
-
     mutation updateArticle(
         $id : ID!
         $confirmPassword : String!
@@ -110,11 +129,10 @@ export const UPDATE_ARTICLE = gql`
             message
         }
     }
-
 `
 
 export const ADD_CATEGORY = gql`
-    
+
     mutation addCategory(
         $id : ID!
         $category_title : String!
@@ -129,9 +147,7 @@ export const ADD_CATEGORY = gql`
         ) {
             message
         }
-    
     }
-
 `
 
 

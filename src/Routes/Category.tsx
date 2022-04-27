@@ -98,7 +98,7 @@ function Category() {
                             <span>Genre</span>
                             <div className='infobox'>
                                 {cateInfoDetail?.genres?.map((gen :IGenre) => (
-                                    <GenreTag style={{fontSize : '0.8rem', fontWeight : 'normal'}}>{gen.name}</GenreTag>
+                                    <GenreTag key={gen.id} style={{fontSize : '0.8rem', fontWeight : 'normal'}}>{gen.name}</GenreTag>
                                 ))}
                             </div>
                         </CateDetailInfoBox>

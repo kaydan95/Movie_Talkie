@@ -4,17 +4,17 @@ import { CreateCateBtn, FormBox, FormBoxWrapper } from '../Styles/CreateCateStyl
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
-const JoinWrapper = styled.div`
+export const JoinWrapper = styled.div`
     padding : 10px;
     width : 100%;
-    height : fit-content;
+    height : 88vh;
     display: flex;
-    margin : 50px auto;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
 `
 
-const JoinTitle = styled.h1`
+export const JoinTitle = styled.h1`
     width : fit-content;
     color : ${props => props.theme.base.main};
     font-weight : bold;
@@ -22,23 +22,23 @@ const JoinTitle = styled.h1`
     margin-bottom: 20px;
 `
 
-const JoinBox = styled.div`
+export const JoinBox = styled.div`
     padding : 20px;
     width : 35%;
-    height : 480px;
+    height : fit-content;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
 `
 
-const JoinForm = styled.form`
+export const JoinForm = styled.form`
     display: flex;
     flex-direction: column;
     width : 100%;
 `
 
-const JoinFormBoxWrapper = styled(FormBoxWrapper)`
+export const JoinFormBoxWrapper = styled(FormBoxWrapper)`
     margin-bottom: 10px;
     p {
         text-transform: uppercase;
@@ -47,7 +47,7 @@ const JoinFormBoxWrapper = styled(FormBoxWrapper)`
     }
 `
 
-const JoinBtn = styled(CreateCateBtn)`
+export const JoinBtn = styled(CreateCateBtn)`
     width : 35%;
     border : none;
     background-color: ${props => props.theme.base.subTwo};
