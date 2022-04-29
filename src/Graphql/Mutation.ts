@@ -71,6 +71,7 @@ export const LOGIN = gql`
             user {
                 username
             }
+            accessToken
         }
     }
 `
@@ -79,6 +80,7 @@ export const LOGIN = gql`
 
 export const POST_ARTICLE = gql`
     mutation postArticle(
+        $username : String!
         $password : String!
         $title : String!
         $context : String!
@@ -86,6 +88,7 @@ export const POST_ARTICLE = gql`
         $category : ID!
     ) {
         postArticle(
+            username : $username
             password : $password 
             title : $title
             context : $context

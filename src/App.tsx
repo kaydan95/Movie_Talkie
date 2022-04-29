@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate} from "react-router-dom";
 import {ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client";
 import {createUploadLink} from "apollo-upload-client";
 import CreateUser from './Components/CreateUser';
@@ -40,6 +40,7 @@ function App() {
           <Route path="/postarticle/:cateId" element={<PostArticle/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/join" element={<Join/>}></Route>
+          <Route path="/main" element={<Navigate to="/" replace />} />
 
           
           <Route path="/createuser" element={<CreateUser/>}></Route>

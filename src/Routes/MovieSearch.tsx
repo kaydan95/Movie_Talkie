@@ -136,7 +136,7 @@ function MovieSearch() {
 
     const movies = cateSearch?.getAllSearchedCategories;
 
-    console.log(movies);
+    // console.log(movies);
 
     return (
         <>
@@ -144,7 +144,7 @@ function MovieSearch() {
                 {movies?.length !== 0 ? (
                     <MovieSearchWrapper>
                         {movies?.map((movie:ICateType) => (
-                            <MovieBox>
+                            <MovieBox key={movie.id}>
                                 {movie.category_imgPath !== null ? (
                                     <MovieImg bgphoto={makeImage(movie.category_imgPath, "w300")}/>
                                 ) : (

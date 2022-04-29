@@ -4,7 +4,11 @@ import { faSearch, faBars } from "@fortawesome/free-solid-svg-icons";
 import { useAnimation, useViewportScroll } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { GET_USER } from '../Graphql/Queries';
+import { ILocation } from '../Routes/Main';
+import React from 'react';
 
 // variants
 const NavVars = {
@@ -53,13 +57,19 @@ function Header() {
 
     const {register, handleSubmit, setValue} = useForm<IForm>();
 
+    const location = useLocation() as ILocation;
+
+    const isLogged = location?.state?.isLogged;
+
+    // console.log(isLogged)
+
     const onValid = (data:IForm) => {
         navigate(`/moviesearch?keyword=${data.keyword}`);
         setValue("keyword", "");
     };
 
     const goMain = () => {
-        navigate(`/`);
+        navigate(`/`, {replace : true, state : { isLogged : true}});
     };
 
     const OpenClick = () => {
@@ -89,7 +99,7 @@ function Header() {
             } else {
                 navAnimation.start("normal")
             }
-        })
+        });
     }, [scrollY, navAnimation]);
     
     return (
@@ -106,8 +116,17 @@ function Header() {
                 <MenuSection>
                     <FontAwesomeIcon onClick={OpenClick} icon={faBars} className="barsIcon"/>
                     <MenuModal variants={ModalVars} initial="start" animate={openAni}>
-                        <span onClick={goLogin}>LOGIN</span>
-                        <span onClick={goJoin}>JOIN</span>
+                        {isLogged ? (
+                            <>
+                                <span>MY PAGE</span>
+                                <span>LOGOUT</span>
+                            </>
+                        ) : (   
+                            <>
+                                <span onClick={goLogin}>LOGIN</span>
+                                <span onClick={goJoin}>JOIN</span>
+                            </>
+                        )}
                     </MenuModal>
                 </MenuSection>
             </HeaderWrapper>
@@ -116,6 +135,6 @@ function Header() {
     )
 }
 
-export default Header
+export default React.memo(Header);
 
 

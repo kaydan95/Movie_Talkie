@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ADD_CATEGORY } from '../Graphql/Mutation';
+import { ADD_CATEGORY, CREATE_NEW_ACCESSTOKEN } from '../Graphql/Mutation';
 import { CateFormBox, CateFormSection, CateImg, CateInfoForm, CreateCateBtn, CreateCateWrapper, FormBox, FormBoxWrapper, GenreTag, MovieSearchBox, MovieSearchBoxImg, MovieSearchSection } from '../Styles/CreateCateStyle';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SearchSection } from '../Styles/HeaderStyle';
 import { useForm } from 'react-hook-form';
-import { GET_MOVIE_DETAIL, GET_MOVIE_SEARCH_RESULTS } from '../Graphql/Queries';
+import { GET_MOVIE_DETAIL, GET_MOVIE_SEARCH_RESULTS, GET_USER } from '../Graphql/Queries';
 import { makeImage } from '../util';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ILocation } from './Main';
 
 
 //interface
@@ -36,6 +37,31 @@ function CreateCategory() {
 
     const [movieName, setMovieName] = useState("");
     const [cateSearchPage, setPage] = useState(1);
+    const navigate = useNavigate();
+
+    const [userId, setUserId] = useState("");
+    const [token, setToken] = useState("");
+    // 유저정보 확인 후 accessToken 발급하기
+    const { data : userData, refetch } = useQuery(GET_USER, {
+        onCompleted : (data) => {
+            setUserId(data?.getUser?.id);
+            setToken(data?.getUser?.token);
+            return {
+                userId, token
+            }
+
+        }
+    });
+    // const userId = userData?.getUser?.id;
+    // const token = userData?.getUser?.token;
+    const [ createToken, {data} ] = useMutation(CREATE_NEW_ACCESSTOKEN, {
+        onCompleted : (data) => {
+            return data;
+        }
+    });
+
+
+    console.log(userData)
 
     // 영화 검색
     const [searchTitle, setSearchTitle] = useState("Search Movie to Make Category")
@@ -52,10 +78,24 @@ function CreateCategory() {
 
     // 검색 후 검색 영역 타이틀 변경
     useEffect(() => {
+        if(userId != null) {
+            createToken({
+                variables : {
+                    id : userId,
+                    refreshToken : token
+                }
+            });
+        }
         if(movieName !== ""){
             setSearchTitle("Here is result of " + `${movieName}`);
         }
-    },[movieName]);
+    },[userId, movieName]);
+
+    const location = useLocation() as ILocation;
+    console.log(location.state);
+
+    console.log(data?.createNewAccessToken)
+
 
 
     //영화 선택 후 -> From에 정보 반영
@@ -70,7 +110,6 @@ function CreateCategory() {
 
 
     // 카테고리 생성
-    const navigate = useNavigate();
     const [addCategory, {error}] = useMutation(ADD_CATEGORY, {
         variables : {
             id : Detail?.id, 
@@ -78,10 +117,16 @@ function CreateCategory() {
             category_releaseDate : Detail?.release_date,
             category_imgPath : Detail?.backdrop_path,
         },
+        context : {
+            headers : {
+                authorization: `Bearer ${data?.createNewAccessToken?.accessToken}`,
+                "Content-Type": "application/json",
+            }
+        },
         onCompleted : () => {
             if(!error) {
                 alert(`${Detail?.original_title}` + " 카테고리 생성완료");
-                navigate(`/`);
+                navigate(`/`, {replace : true, state : { isLogged : true}});
             }
         },
         onError : () => {
@@ -143,7 +188,7 @@ function CreateCategory() {
                                 <p>Genres</p>
                                 <div style={{display : 'inline-flex'}}>
                                     {Detail?.genres?.map((genre :IGenre) => (
-                                        <GenreTag>{genre.name}</GenreTag>
+                                        <GenreTag key={genre.id}>{genre.name}</GenreTag>
                                     ))}
                                 </div>
                             </FormBoxWrapper>
@@ -156,7 +201,7 @@ function CreateCategory() {
                 <MovieSearchSection>
                     <h1>{searchTitle}</h1>
                     {cateSearchResult?.map((result:IMovieType) => (
-                        <MovieSearchBox className='SearchBox' onClick={() => selectMovie(result.id)}>
+                        <MovieSearchBox key={result.id} className='SearchBox' onClick={() => selectMovie(result.id)}>
                             <p className='id'>{result.id}</p>
                             {result.backdrop_path !== null ? (
                                 <MovieSearchBoxImg bgphoto={makeImage(result.backdrop_path, "w300")}/>

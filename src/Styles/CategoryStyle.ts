@@ -128,8 +128,41 @@ export const CateArticleTitle = styled.div`
     }
 `
 
-export const CateArticlesList = styled.table`
-    border : 1px solid black;
+export const CateArticlesList = styled.div`
     width : 100%;
     height : 500px;
+    /* border : 1px solid red; */
+    display : flex;
+    flex-direction: column;
+    padding: 10px;
 `
+
+export const Article = styled.div`
+    display : grid;
+    grid-template-columns: 8% 72% 10% 10%;
+    width : 100%;
+    height : 40px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid grey;
+    span {
+        /* border : 1px solid red; */
+        padding : 10px;
+    }
+    .username, .date {
+        display : flex;
+        justify-content : center;
+        align-items: center;
+    }
+`
+
+{/* <div>
+    {articles && (<div>
+        <span>title : <input name="title" value={articles.title} onChange={handleChange}/></span><br/>
+        <span>context : <input name="context" value={articles.context} onChange={handleChange}/></span><br/>
+        <img src={articles.img_file}/><br/>
+        <span>username : <input name="username" value={articles.username} onChange={handleChange}/></span><br/>
+        <span>created at : <input name="createdAt" value={articles.createdAt} onChange={handleChange}/></span>
+    </div>)}
+    <button>Delete Article</button>
+    <button>Edit Article</button>
+</div> */}

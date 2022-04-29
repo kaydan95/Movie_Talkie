@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
-import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LOGIN } from '../Graphql/Mutation';
 import { FormBox } from '../Styles/CreateCateStyle'
 import { JoinBox, JoinForm, JoinFormBoxWrapper, JoinTitle, JoinWrapper, JoinBtn } from './Join'
@@ -11,15 +11,19 @@ function Login() {
     const [userPw, setuserPw] = useState("");
     const navigate = useNavigate();
 
-    const [Login, {error, data : loginData} ] = useMutation(LOGIN, {
+    const [Login, {error, data} ] = useMutation(LOGIN, {
         variables : {
             name : userId,
             password : userPw
         },
+        onError : () => {
+            alert("로그인 오류")
+        },
         onCompleted : (data) => {
-            if(!error){
-                alert(`${data?.login?.user?.username}` +  "님 환영합니다");
-                navigate(`/`);
+            if(data?.login.accessToken != ""){
+                const isLogged = true;
+                alert("로그인 성공")
+                navigate(`/`, {state : { isLogged : isLogged }})
             }
         }
     });
@@ -57,4 +61,4 @@ function Login() {
     )
 }
 
-export default Login
+export default Login;

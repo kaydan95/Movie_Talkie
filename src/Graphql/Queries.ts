@@ -18,6 +18,7 @@ export const GET_USER = gql`
     query getUser {
         getUser {
             id
+            username
             token
         }
     }
@@ -57,7 +58,6 @@ export const GET_SEARCHED_CATEGORIES = gql`
 export const GET_ALL_ARTICLES = gql`
     query getAllArticles {
         getAllArticles {
-            username
             title
             img_file
             createdAt
@@ -69,10 +69,9 @@ export const GET_ALL_ARTICLES = gql`
 export const GET_ALL_CATE_ARTICLES = gql`
     query getAllCateArticles($category : ID!) {
         getAllCateArticles(category : $category) {
-            username
+            id
             title
-            context
-            img_file
+            username
             createdAt
         }
     }
@@ -82,7 +81,7 @@ export const GET_ALL_CATE_ARTICLES = gql`
 export const GET_ARTICLE = gql`
     query getArticle($id : ID!) {
         getArticle(id : $id) {
-            username
+            userid
             title
             context
             img_file
