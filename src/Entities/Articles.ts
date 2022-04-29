@@ -14,6 +14,9 @@ export class Articles extends BaseEntity {
     @JoinColumn({name:'userid', referencedColumnName:'id'})
     userid! : Users;
 
+    @Column()
+    username! : string;
+
     @Column({
         type:"varchar",
         length:"10"

@@ -18,14 +18,18 @@ export const GET_ALL_USERS = {
 //현재 로그인한 사람의 정보를 가져옴
 export const GET_USER = {
     type : UserType,
-    resolve(_ : any, __ : any, req : any){
+    async resolve(_ : any, __ : any, req : any){
 
-        // console.log(req.userId);
+        console.log(req.userId);
         
         if(!req.userId) {
             return null;
         }
 
-        return Users.findOne(req.userId);
+        const user = await Users.findOne({id : req.userId});
+
+        console.log(user)
+
+        return user
     }
 }

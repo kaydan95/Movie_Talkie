@@ -35,14 +35,15 @@ export const CREATE_NEW_ACCESSTOKEN = {
     async resolve(parent:any, args:IToken){
         const { id, refreshToken } = args;
 
-        console.log(args)
-
         if(refreshToken === null) {
             throw "refreshToken is not available"
         }
         const user = await Users.findOne({id : id});
 
-        console.log(refreshToken === user?.token ? true : false)
+        console.log(refreshToken);
+        console.log(user?.token);
+
+        console.log(refreshToken === user?.token ? true : false);
 
         if(refreshToken !== user?.token){
             return null;
@@ -139,14 +140,16 @@ export const LOGIN = {
             }
             else {
                 // 1. 최초로그인의 경우 -> 토크 두개 모두 발금 (accessToken 은 저장 없이 client로 리턴, refreshToken은 쿠키에 저장..?)
-                const accessToken = sign({userId : user.id}, ACCESS_TOKEN_SECRET, {expiresIn : "50min"});
+                const accessToken = sign({userId : user.id}, ACCESS_TOKEN_SECRET, {expiresIn : "5min"});
                 const refreshToken = sign({userId : user.id, pw : user.password}, REFRESH_TOKEN_SECRET, {expiresIn : "1d"});
 
-                Users.update(user.id, {token : refreshToken});
+                const id = user.id
+                await Users.update(id, {token : refreshToken});
+                const one = await Users.findOne({id : id});
                 res.cookie("refresh-token", refreshToken, {httpOnly : true, secure : true});
 
                 return {
-                    user,
+                    user : one,
                     accessToken : accessToken
                 }
             }

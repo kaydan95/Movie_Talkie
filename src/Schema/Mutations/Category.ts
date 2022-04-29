@@ -10,7 +10,13 @@ export const ADD_CATEGORY = {
         category_releaseDate : {type : GraphQLString},
         category_imgPath : {type : GraphQLString},
     },
-    async resolve(parent:any, args:any){
+    async resolve(parent:any, args:any, req : any){
+
+        // console.log(req.userId)
+        if(!req.userId) {
+            return { success : false, message : "token is expired" }
+        }
+
         const { id, category_title, category_releaseDate, category_imgPath } = await args;
 
         await Category.insert({id, category_title, category_releaseDate, category_imgPath});
