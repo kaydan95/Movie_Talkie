@@ -9,6 +9,6 @@ export const theme : DefaultTheme = {
     },
     extra : {
         black : "#000000",
-        red : "#630000",
+        red : "#CC0000",
     }
 }
