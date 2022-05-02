@@ -44,7 +44,7 @@ const main = async () => {
             const refreshToken = req.cookies["refresh-token"];
             try {
                 const data = verify(refreshToken, REFRESH_TOKEN_SECRET) as any;
-                console.log(data);
+                // console.log(data);
                 (req as any).userId = data.userId;
             } catch {}
             next();

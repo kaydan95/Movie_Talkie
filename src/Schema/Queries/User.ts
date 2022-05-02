@@ -19,17 +19,11 @@ export const GET_ALL_USERS = {
 export const GET_USER = {
     type : UserType,
     async resolve(_ : any, __ : any, req : any){
-
-        console.log(req.userId);
         
         if(!req.userId) {
             return null;
         }
 
-        const user = await Users.findOne({id : req.userId});
-
-        console.log(user)
-
-        return user
+        return await Users.findOne({id : req.userId});
     }
 }

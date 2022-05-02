@@ -40,10 +40,10 @@ export const CREATE_NEW_ACCESSTOKEN = {
         }
         const user = await Users.findOne({id : id});
 
-        console.log(refreshToken);
-        console.log(user?.token);
+        // console.log(refreshToken);
+        // console.log(user?.token);
 
-        console.log(refreshToken === user?.token ? true : false);
+        // console.log(refreshToken === user?.token ? true : false);
 
         if(refreshToken !== user?.token){
             return null;
@@ -156,5 +156,16 @@ export const LOGIN = {
         }
     }
 }
+
+// 로그아웃
+export const LOGOUT = {
+    type : MessageType,
+    async resolve(parent:any, _:any, {res} : any){
+
+        res.clearCookie("refresh-token");
+
+        return { success : true, message : "LOGOUT SUCCESSFULLY"}
+    }
+};
 
 
