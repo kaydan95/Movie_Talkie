@@ -22,7 +22,7 @@ export const JoinTitle = styled.h1`
     margin-bottom: 20px;
 `
 
-export const JoinBox = styled.div`
+export const JoinBox = styled.form`
     padding : 20px;
     width : 35%;
     height : fit-content;
@@ -44,6 +44,10 @@ export const JoinFormBoxWrapper = styled(FormBoxWrapper)`
         text-transform: uppercase;
         font-size: 0.9rem;
         color: ${props => props.theme.base.main};
+    }
+    .errorMessage {
+        color : ${props => props.theme.extra.red};
+        margin : 8px 0px 0px 5px;
     }
 `
 

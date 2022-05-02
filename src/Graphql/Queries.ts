@@ -81,10 +81,11 @@ export const GET_ALL_CATE_ARTICLES = gql`
 export const GET_ARTICLE = gql`
     query getArticle($id : ID!) {
         getArticle(id : $id) {
-            userid
+            username
             title
             context
             img_file
+            password
             createdAt
         }
     }

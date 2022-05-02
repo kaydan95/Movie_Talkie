@@ -29,7 +29,7 @@ function Category() {
     const cateId = Number(catePathMatch?.params.cateId);
 
     // user  정보 확인 후 accessToken 발급
-    const { data : userData } = useQuery(GET_USER);
+    const { data : userData, refetch : userRefetch } = useQuery(GET_USER);
     const userId = userData?.getUser?.id;
     const token = userData?.getUser?.token;
     const [isLogged, setIsLogged] = useState(false)
@@ -40,15 +40,23 @@ function Category() {
     });
 
     // 글 목록 호출
+    function convertDate(milliSecond : number) {
+        const data = new Date(milliSecond);  //Date객체 생성
+
+        const year = data.getFullYear();    //0000년 가져오기
+        const month = data.getMonth() + 1;  //월은 0부터 시작하니 +1하기
+        const date = data.getDate();        //일자 가져오기
+    
+        return `${year}-${month}-${date}`;
+    }
     const [articleList, setArticleList] = useState([]);
-    const { loading, error, data : cateData, refetch } = useQuery(GET_ALL_CATE_ARTICLES, {
+    const { loading, error, data : cateData, refetch : articleRefetch } = useQuery(GET_ALL_CATE_ARTICLES, {
         variables : {category : cateId},
         onCompleted : (data) => {
             setArticleList(data?.getAllCateArticles)
         }
     });
 
-    console.log(cateData);
 
     // 영화 디테일 정보
     const [isSplit, setIsSplit] = useState(false);
@@ -72,7 +80,7 @@ function Category() {
 
 
     useEffect(() => {
-        refetch();
+        articleRefetch();
         if(userId !== "") {
             createToken({
                 variables : {
@@ -81,18 +89,29 @@ function Category() {
                 }
             });
         }
+        if(userData?.geUser == null && data?.createNewAccessToken == null) {
+            setIsLogged(false);
+        }
+        userRefetch();
         if(cateInfoDetail?.original_title?.includes(":")){
             setIsSplit(true);
         }
     }, [userId]);
 
-    console.log(userData);
-    console.log(data);
-
-
     // 글쓰기페이지로 이동
     const goPost = (cateId : number) => {
-        navigate(`/postarticle/${cateId}`, {state : { isLogged : isLogged }});
+        if(isLogged === true) {
+            navigate(`/postarticle/${cateId}`, {state : { isLogged : isLogged }});
+        }
+        else {
+            alert("Members Only");
+            navigate(`/login`);
+        }
+    }
+
+    // 해당 게시글 클릭
+    const goArticle = (articleId : number) => {
+        navigate(`/article/${articleId}`);
     }
 
 
@@ -118,7 +137,7 @@ function Category() {
                             <span>Director</span>
                             <div className='infobox'>
                                 {MovieDirector?.map((dir:ICredit) => (
-                                    <p key={dir?.original_name}>{dir?.original_name} <p>&</p> </p>
+                                    <p key={dir?.original_name}>{dir?.original_name} <span>&</span> </p>
                                 ))}
                             </div>
                         </CateDetailInfoBox>
@@ -126,7 +145,7 @@ function Category() {
                             <span>Cast</span>
                             <div className='infobox'>
                                 {cateCreditData?.cast?.slice(0,2).map((cast:ICredit) => (
-                                    <p key={cast.original_name}>{cast.original_name} <p>/</p></p> 
+                                    <p key={cast.original_name}>{cast.original_name} <span>/</span></p> 
                                 ))} <p>...and more</p>
                             </div>
                         </CateDetailInfoBox>
@@ -156,11 +175,11 @@ function Category() {
                 </CateArticleTitle>
                 <CateArticlesList>
                     {articleList?.map((article : IArticleType) => (
-                        <Article key={article.id}>
+                        <Article key={article.id} onClick={() => goArticle(article.id)}>
                             <span className='postId'>{article.id}</span>
                             <span className='title'>{article.title}</span>
                             <span className='username'>{article.username}</span>
-                            <span className='date'>{article.createdAt}</span>
+                            <span className='date'>{convertDate(+article.createdAt)}</span>
                         </Article>
                     ))}
                 </CateArticlesList>

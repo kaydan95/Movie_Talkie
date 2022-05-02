@@ -79,11 +79,11 @@ export const CateDetailInfoBox = styled.div`
         display: inline-flex;
         color : ${props => props.theme.extra.black};
         width : fit-content;
-        p{
+        span{
             margin : 0px 5px;
         }
         &:last-child {
-            p{
+            span{
                 display: none;
             }
         }
@@ -139,10 +139,11 @@ export const CateArticlesList = styled.div`
 
 export const Article = styled.div`
     display : grid;
-    grid-template-columns: 8% 72% 10% 10%;
+    grid-template-columns: 8% 70% 10% 12%;
     width : 100%;
-    height : 40px;
-    margin-bottom: 10px;
+    height : 45px;
+    /* margin-bottom: 10px; */
+    padding : 5px;
     border-bottom: 1px solid grey;
     span {
         /* border : 1px solid red; */
@@ -153,16 +154,9 @@ export const Article = styled.div`
         justify-content : center;
         align-items: center;
     }
+    &:hover {
+        cursor : pointer;
+        background-color: rgba(219,226,239,0.3);
+        color : ${props => props.theme.base.main}
+    }
 `
-
-{/* <div>
-    {articles && (<div>
-        <span>title : <input name="title" value={articles.title} onChange={handleChange}/></span><br/>
-        <span>context : <input name="context" value={articles.context} onChange={handleChange}/></span><br/>
-        <img src={articles.img_file}/><br/>
-        <span>username : <input name="username" value={articles.username} onChange={handleChange}/></span><br/>
-        <span>created at : <input name="createdAt" value={articles.createdAt} onChange={handleChange}/></span>
-    </div>)}
-    <button>Delete Article</button>
-    <button>Edit Article</button>
-</div> */}

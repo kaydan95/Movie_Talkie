@@ -39,10 +39,10 @@ function CreateCategory() {
     const [cateSearchPage, setPage] = useState(1);
     const navigate = useNavigate();
 
+    // 유저정보 확인 후 accessToken 발급하기
     const [userId, setUserId] = useState("");
     const [token, setToken] = useState("");
-    // 유저정보 확인 후 accessToken 발급하기
-    const { data : userData, refetch } = useQuery(GET_USER, {
+    const { data : userData } = useQuery(GET_USER, {
         onCompleted : (data) => {
             setUserId(data?.getUser?.id);
             setToken(data?.getUser?.token);
@@ -52,16 +52,11 @@ function CreateCategory() {
 
         }
     });
-    // const userId = userData?.getUser?.id;
-    // const token = userData?.getUser?.token;
     const [ createToken, {data} ] = useMutation(CREATE_NEW_ACCESSTOKEN, {
         onCompleted : (data) => {
             return data;
         }
     });
-
-
-    console.log(userData)
 
     // 영화 검색
     const [searchTitle, setSearchTitle] = useState("Search Movie to Make Category")
@@ -90,12 +85,6 @@ function CreateCategory() {
             setSearchTitle("Here is result of " + `${movieName}`);
         }
     },[userId, movieName]);
-
-    const location = useLocation() as ILocation;
-    console.log(location.state);
-
-    console.log(data?.createNewAccessToken)
-
 
 
     //영화 선택 후 -> From에 정보 반영

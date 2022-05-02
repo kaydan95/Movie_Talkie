@@ -8,11 +8,12 @@ import Main from './Routes/Main';
 import PostArticle from './Routes/PostArticle';
 import CreateCategory from './Routes/CreateCategory';
 import Category from './Routes/Category';
-import Article from './Components/Article';
 import MovieSearch from './Routes/MovieSearch';
 import Header from './Components/Header';
 import Login from './Routes/Login';
 import Join from './Routes/Join';
+import EditArticle from "./Components/EditArticle";
+import Article from "./Routes/Article";
 
 function App() {
 
@@ -40,13 +41,14 @@ function App() {
           <Route path="/postarticle/:cateId" element={<PostArticle/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/join" element={<Join/>}></Route>
-          <Route path="/main" element={<Navigate to="/" replace />} />
+          <Route path="/article/:articleId" element={<Article/>}></Route>
+          <Route path="/editArticle/:articleId" element={<EditArticle/>}></Route>
 
           
           <Route path="/createuser" element={<CreateUser/>}></Route>
           <Route path="/listofusers" element={<ListOfUsers/>}></Route>
           <Route path="/updatepw" element={<UpdatePw/>}></Route>
-          <Route path="/article" element={<Article/>}></Route>
+
         </Routes>
       </ApolloProvider>
     </Router>

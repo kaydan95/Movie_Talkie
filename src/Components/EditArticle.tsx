@@ -3,10 +3,12 @@ import React from 'react';
 import { useState } from 'react';
 import { GET_ARTICLE } from '../Graphql/Queries';
 import { DELETE_ARTICLE, UPDATE_ARTICLE } from '../Graphql/Mutation'
+import { useMatch } from 'react-router-dom';
 
-function Article() {
+function EditArticle() {
 
-    let article_id = 9;
+    const editArticlePathMatch = useMatch("/editArticle/:articleId");
+    const articleId = Number(editArticlePathMatch?.params.articleId);
 
     const [articles, setArticles] = useState({
         title : " ",
@@ -17,9 +19,9 @@ function Article() {
     })
 
     const { loading, error } = useQuery(GET_ARTICLE, {
-        variables : {id : article_id},
+        variables : {id : articleId},
         onCompleted : (data) => {
-            if(article_id === 0) {
+            if(articleId === 0) {
                 setArticles({
                     title : "NO DATA",
                     context : "NO DATA",
@@ -75,7 +77,7 @@ function Article() {
                 confirmPassword(event?.target.value);
             }}></input>
             <button onClick={() => {
-                handleDelete({variables : {id : article_id, password : password}});
+                handleDelete({variables : {id : articleId, password : password}});
             }}>Delete Article</button><br/>
 
             {/* <input type="text" placeholder="set your new pw" onChange={(event)=>{
@@ -85,7 +87,7 @@ function Article() {
                 console.log(articles.title, articles.context, editImg_file);
                 handleUpdate({
                     variables : {
-                        id : article_id,
+                        id : articleId,
                         confirmPassword : password,
                         editTitle : articles.title,
                         editContext : articles.context,
@@ -106,5 +108,5 @@ function Article() {
     )
 }
 
-export default Article
+export default React.memo(EditArticle)
 
