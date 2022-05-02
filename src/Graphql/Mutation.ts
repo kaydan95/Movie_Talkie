@@ -77,6 +77,15 @@ export const LOGIN = gql`
 `
 
 
+export const LOGOUT = gql`
+    mutation logout {
+        logout {
+            message
+        }
+    }
+`
+
+
 
 export const POST_ARTICLE = gql`
     mutation postArticle(

@@ -9,6 +9,8 @@ import { useQuery } from '@apollo/client';
 import { GET_USER } from '../Graphql/Queries';
 import { ILocation } from '../Routes/Main';
 import React from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGOUT } from '../Graphql/Mutation';
 
 // variants
 const NavVars = {
@@ -24,7 +26,7 @@ const NavVars = {
     }
 }
 
-const ModalVars = {
+export const ModalVars = {
     start : {
         height : 0
     },
@@ -54,14 +56,22 @@ function Header() {
     const { scrollY } = useViewportScroll();
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [isLogged, setIsLogged] = useState(false);
+
+    // 로그인 되어 있는지 유저정보 확인
+    const { data : userData, refetch } = useQuery(GET_USER);
+
+    useEffect(() => {
+        refetch();
+        if(userData?.getUser != null) {
+            setIsLogged(true)
+        }
+        if(userData?.getUser == null) {
+            setIsLogged(false)
+        }
+    })
 
     const {register, handleSubmit, setValue} = useForm<IForm>();
-
-    const location = useLocation() as ILocation;
-
-    const isLogged = location?.state?.isLogged;
-
-    // console.log(isLogged)
 
     const onValid = (data:IForm) => {
         navigate(`/moviesearch?keyword=${data.keyword}`);
@@ -69,7 +79,7 @@ function Header() {
     };
 
     const goMain = () => {
-        navigate(`/`, {replace : true, state : { isLogged : true}});
+        navigate(`/`, {replace : true, state : { isLogged : isLogged}});
     };
 
     const OpenClick = () => {
@@ -81,6 +91,12 @@ function Header() {
             openAni.start("start");
         }
     };
+
+    const [goLogout] = useMutation(LOGOUT, {
+        onCompleted : () => {
+            navigate(`/`, {state : { isLogged : isLogged}});
+        }
+    })
 
     const goLogin = () => {
         navigate(`/login`);
@@ -119,7 +135,7 @@ function Header() {
                         {isLogged ? (
                             <>
                                 <span>MY PAGE</span>
-                                <span>LOGOUT</span>
+                                <span onClick={() => goLogout()}>LOGOUT</span>
                             </>
                         ) : (   
                             <>

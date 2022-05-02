@@ -23,7 +23,7 @@ function Login() {
             if(data?.login.accessToken != ""){
                 const isLogged = true;
                 alert("로그인 성공")
-                navigate(`/`, {state : { isLogged : isLogged }})
+                navigate(-1);
             }
         }
     });

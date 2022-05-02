@@ -32,23 +32,20 @@ function Main() {
     const navigate = useNavigate();
 
     // 유저정보 확인 후 새로운 accessToken 발급
+    const { data : userData , refetch : userRefetch} = useQuery(GET_USER);
+    const userId = userData?.getUser?.id;
+    const token = userData?.getUser?.token;
 
-    const [userId, setUserId] = useState("");
-    const [token, setToken] = useState("");
-    const { data : userData } = useQuery(GET_USER, {
-        onCompleted : (data) => {
-            setUserId(data?.getUser?.id);
-            setToken(data?.getUser?.token);
+    const [isLogged, setIsLogged] = useState(false);
+    const [ createToken, {data : accessTokenData} ] = useMutation(CREATE_NEW_ACCESSTOKEN, {
+        onCompleted : () => {
+            setIsLogged(true)
         }
     });
 
-    const [isLogged, setIsLogged] = useState(false);
-    const location = useLocation() as ILocation;
-    const [ createToken, {data : accessTokenData} ] = useMutation(CREATE_NEW_ACCESSTOKEN);
-
 
     const [cateList, setCateList] = useState([]);
-    const { data : AllCates, refetch } = useQuery(GET_ALL_CATEGORIES, {
+    const { data : AllCates, refetch : cateRefetch} = useQuery(GET_ALL_CATEGORIES, {
         onCompleted : (data) => {
             setCateList(data?.getAllCategories);
         }
@@ -57,30 +54,34 @@ function Main() {
     // console.log(AllCates?.getAllCategories)
 
     useEffect(() => {
-        refetch();
-        if(token != null) {
-            if(accessTokenData?.createNewAccessToken == null || undefined) {
-                createToken({
-                    variables : {
-                        id : userId,
-                        refreshToken : token
-                    }
-                });
-                setIsLogged(true);
-            }
-            else {
-                setIsLogged(true);
-            }
+        cateRefetch();
+
+        if(userId !== "") {
+            createToken({
+                variables : {
+                    id : userId,
+                    refreshToken : token
+                }
+            });
         }
-    }, [accessTokenData?.createNewAccessToken]);
 
-    console.log(userData)
+        if(userData?.getUser == null) {
+            setIsLogged(false);
+        }
 
-    console.log(accessTokenData)
+        // if(userData?.geUser == null && accessTokenData?.createNewAccessToken == undefined) {
+        //     setIsLogged(false);
+        // }
 
-    console.log(location.state);
+        userRefetch();
 
-    console.log(isLogged)
+    }, [userId, userData?.geUser]);
+
+    // console.log(userData)
+
+    // console.log(accessTokenData)
+
+    // console.log(isLogged)
 
     const goTheCate = (cateId : number) => {
         navigate(`/category/${cateId}`, {state : { isLogged : isLogged }});
