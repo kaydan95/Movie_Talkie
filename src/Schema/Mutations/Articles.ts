@@ -51,11 +51,12 @@ export const DELETE_ARTICLE = {
     type : MessageType,
     args : {
         id : { type : GraphQLID},
+        username : { type : GraphQLString },
         password : { type : GraphQLString }
     },
     async resolve(parent : any, args : any){
 
-        let { id, password } = args;
+        let { id, username, password } = args;
 
         const article = await Articles.findOne({id : id});
 
@@ -64,13 +65,14 @@ export const DELETE_ARTICLE = {
         }
 
         const real_pw = article.password;
+        const real_username = article.username;
         const real_id = article.id;
 
         // console.log(id, real_id, password, real_pw);
         // id = parseInt(id);
         // console.log(id, real_id, password, real_pw);
 
-        if(parseInt(id) === real_id && password === real_pw) {
+        if(parseInt(id) === real_id && password === real_pw && username === real_username) {
             await Articles.delete({id : id});
 
             return { success : true, message : "DELETE SUCCESSFULLY"}
@@ -87,13 +89,13 @@ export const UPDATE_ARTICLE = {
     type : MessageType,
     args : {
         id : { type : GraphQLID },
-        confirmPassword : { type : GraphQLString },
         editTitle : { type : GraphQLString },
         editContext : { type : GraphQLString },
+        editDate : { type : GraphQLString },
         editImg_file : { type : FileUploadType },
     },
     async resolve(parent : any, args : any){
-        let { id, confirmPassword, editTitle, editContext, editImg_file } = args;
+        let { id, editTitle, editContext, editDate, editImg_file } = args;
 
         const article = await Articles.findOne({id : id});
 
@@ -109,15 +111,12 @@ export const UPDATE_ARTICLE = {
         // console.log(editImg_file_url);
 
         const id_db = article?.id;
-        const pw_db = article?.password;
 
-        if(parseInt(id) === id_db && confirmPassword === pw_db) {
-            const new_article = await Articles.update(id_db, {title : editTitle, context : editContext, img_file : editImg_file_url});
+        if(parseInt(id) === id_db) {
+            await Articles.update(id_db, {title : editTitle, context : editContext, createdAt : editDate, img_file : editImg_file_url});
 
-            console.log(new_article.affected);
-
-            const check_article = await Articles.findOne({id : id});
-            console.log(check_article);
+            // const check_article = await Articles.findOne({id : id});
+            // console.log(check_article);
 
             return { success : true, message : "UPDATED"}
         } else {
