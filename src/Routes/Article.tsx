@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMatch, useNavigate } from 'react-router-dom';
 import { GET_ARTICLE } from '../Graphql/Queries';
 import { ArticleBox, ArticleContext, ArticleImgBox, ArticleSection, ArticleTitle, ArticleWrapper, BeforeGoEditModal, CancelIconBox } from '../Styles/ArticleStyle';
@@ -8,9 +8,7 @@ import { faEllipsisVertical, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useAnimation } from 'framer-motion';
 import { MenuModal } from '../Styles/HeaderStyle';
 import { ModalVars } from '../Components/Header';
-import { JoinBox, JoinBtn, JoinFormBoxWrapper, JoinTitle } from './Join';
-import { FormBox } from '../Styles/CreateCateStyle';
-import { useForm } from 'react-hook-form';
+import GoEditModal from '../Components/GoEditModal';
 
 // variants
 export const EditModalVars = {
@@ -37,8 +35,10 @@ export const EditModalVars = {
     }
 }
 
+
+
 // interface
-interface IArticle {
+export interface IArticle {
     title : string;
     context : string;
     img_file : string;
@@ -47,20 +47,17 @@ interface IArticle {
     createdAt : string;
 }
 
-interface IVerify {
-    username : string;
-    password : string;
-}
-
 
 function Article() {
 
-    const articlePathMatch = useMatch("/article/:articleId");
+    const articlePathMatch = useMatch("/category/:cateId/article/:articleId");
+    const cateId = Number(articlePathMatch?.params.cateId);
     const articleId = Number(articlePathMatch?.params.articleId);
-    const navigate = useNavigate();
+    const [isEditModal, setIsEditModal] = useState(false);
+    const [isDeleteModal, setIsDeleteModal] = useState(false);
+
     const [isOpen, setIsOpen] = useState(false);
     const openAni = useAnimation();
-    const openModalAni = useAnimation();
 
     function convertDate(milliSecond : number) {
         const data = new Date(milliSecond);  //Date객체 생성
@@ -73,7 +70,7 @@ function Article() {
     }
 
     const [article, setArticle] = useState<IArticle>();
-    const { data : Article } = useQuery(GET_ARTICLE, {
+    const { data : Article, refetch : articleRefetch } = useQuery(GET_ARTICLE, {
         variables : {
             id : articleId
         },
@@ -94,29 +91,16 @@ function Article() {
     }
 
     const goEditModal = () => {
-        openModalAni.start("activate");
-        openAni.start("end");
+        setIsEditModal(true);
     }
 
-    const closeModal = () => {
-        openModalAni.start("end");
+    const goDeleteModal = () => {
+        setIsDeleteModal(true);
     }
 
-
-    const {register, handleSubmit, setValue, formState: { errors }} = useForm<IVerify>();
-
-    const onVerifyValid = (data:IVerify) => {
-        if(data.username === article?.username && data.password === article?.password){
-            navigate(`/editArticle/${articleId}`);
-            setValue("username", "");
-            setValue("password", "");
-        }
-        if(data.username !== article?.username && data.password !== article?.password){
-            alert("Wrong Username Or Password");
-            setValue("username", "");
-            setValue("password", "");
-        }
-    };
+    useEffect(() => {
+        articleRefetch();
+    })
 
 
     return (
@@ -132,7 +116,7 @@ function Article() {
                             animate={openAni}
                         >
                             <span onClick={goEditModal}>EDIT</span>
-                            <span>DELETE</span>
+                            <span onClick={goDeleteModal}>DELETE</span>
                         </MenuModal>
                         <ArticleTitle>
                             <span>{article?.title}</span>
@@ -146,44 +130,20 @@ function Article() {
                         <ArticleContext>{article?.context}</ArticleContext>
                     </ArticleSection>
                 </ArticleBox>
-
-
-                <BeforeGoEditModal variants={EditModalVars} initial="start" animate={openModalAni}>
-                    <CancelIconBox>
-                        <FontAwesomeIcon onClick={closeModal} icon={faXmark} className="closeIcon"/>
-                    </CancelIconBox>
-                    <JoinBox 
-                        style={{margin : '50px auto', backgroundColor : 'white'}}
-                        onSubmit={handleSubmit(onVerifyValid)}
-                    >
-                        <JoinTitle>VERIFICATION CARD</JoinTitle>
-                            <JoinFormBoxWrapper>
-                                <p>username</p>
-                                <FormBox>
-                                    <input 
-                                        {...register("username", {required : true, minLength : 4})}
-                                        placeholder='username'
-                                    />
-                                </FormBox>
-                                <span className='errorMessage'>
-                                    {errors.username?.type === 'required' && "This field is required"}
-                                </span>
-                            </JoinFormBoxWrapper>
-                            <JoinFormBoxWrapper>
-                                <p>article password</p>
-                                <FormBox>
-                                    <input
-                                        {...register("password", {required : true, minLength : 4})}
-                                        placeholder='article password'/>
-                                </FormBox>
-                                <span className='errorMessage'>
-                                    {errors.password?.type === 'required' && "This field is required"}
-                                </span>
-                            </JoinFormBoxWrapper>
-                            <JoinBtn style={{width : '100%'}} onClick={handleSubmit(onVerifyValid)}>VERIFY</JoinBtn>
-                    </JoinBox>
-                </BeforeGoEditModal>
             </ArticleWrapper>
+
+            {isEditModal ? (
+                <GoEditModal article={article} modalType={isEditModal} id={articleId} categoryId={cateId}/>
+            ) : (
+                null
+            )}
+
+            {isDeleteModal ? (
+                <GoEditModal article={article} modalType={isEditModal} id={articleId} categoryId={cateId}/>
+            ) : (
+                null
+            )}
+            
         </>
 
     )

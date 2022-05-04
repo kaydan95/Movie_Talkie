@@ -112,10 +112,12 @@ export const POST_ARTICLE = gql`
 export const DELETE_ARTICLE = gql`
     mutation deleteArticle(
         $id : ID!
+        $username : String!
         $password : String!
     ) {
         deleteArticle(
             id : $id
+            username : $username
             password : $password
         ) {
             message
@@ -126,16 +128,16 @@ export const DELETE_ARTICLE = gql`
 export const UPDATE_ARTICLE = gql`
     mutation updateArticle(
         $id : ID!
-        $confirmPassword : String!
         $editTitle : String!
         $editContext : String!
+        $editDate : String!
         $editImg_file : FileUpload
     ) {
         updateArticle(
             id : $id
-            confirmPassword : $confirmPassword
             editTitle : $editTitle
             editContext : $editContext
+            editDate : $editDate
             editImg_file : $editImg_file
         ) {
             message

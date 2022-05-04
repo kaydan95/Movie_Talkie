@@ -111,7 +111,7 @@ function Category() {
 
     // 해당 게시글 클릭
     const goArticle = (articleId : number) => {
-        navigate(`/article/${articleId}`);
+        navigate(`/category/${cateId}/article/${articleId}`);
     }
 
 

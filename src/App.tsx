@@ -12,7 +12,7 @@ import MovieSearch from './Routes/MovieSearch';
 import Header from './Components/Header';
 import Login from './Routes/Login';
 import Join from './Routes/Join';
-import EditArticle from "./Components/EditArticle";
+import EditArticle from "./Routes/EditArticle";
 import Article from "./Routes/Article";
 
 function App() {
@@ -38,11 +38,13 @@ function App() {
           <Route path="/moviesearch" element={<MovieSearch/>}></Route>
           <Route path="/createCategory" element={<CreateCategory/>}></Route>
           <Route path="/category/:cateId" element={<Category/>}></Route>
+          <Route path="/category/:cateId/article/:articleId" element={<Article/>}></Route>
+          <Route path="/category/:cateId/editArticle/:articleId" element={<EditArticle/>}></Route>
           <Route path="/postarticle/:cateId" element={<PostArticle/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/join" element={<Join/>}></Route>
-          <Route path="/article/:articleId" element={<Article/>}></Route>
-          <Route path="/editArticle/:articleId" element={<EditArticle/>}></Route>
+
+
 
           
           <Route path="/createuser" element={<CreateUser/>}></Route>
