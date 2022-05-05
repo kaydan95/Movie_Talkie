@@ -16,11 +16,13 @@ export const CREATE_NEW_ACCESSTOKEN = gql`
 
 export const CREATE_USER = gql`
     mutation createUser(
+        $id : ID!
         $name : String! 
         $username : String! 
         $password : String!
         ) {
         createUser(
+            id : $id
             name : $name 
             username : $username 
             password : $password

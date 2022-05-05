@@ -24,6 +24,23 @@ export const GET_USER = gql`
     }
 `
 
+export const CHECK_USER = gql`
+    query checkUser(
+        $userId : String!
+        $userName : String!
+    ) {
+        checkUser(
+            userId : $userId
+            userName : $userName
+        ) {
+            bothOkay
+            userIdTaken
+            userNameTaken
+            bothTaken
+        }
+    }
+`
+
 
 // 모든 카테고리 호출
 export const GET_ALL_CATEGORIES = gql`
