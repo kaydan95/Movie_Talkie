@@ -3,7 +3,7 @@
 
 
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
-import { GET_ALL_USERS, GET_USER } from './Queries/User';
+import { CHECK_USER, GET_ALL_USERS, GET_USER } from './Queries/User';
 import { GET_ALL_CATEGORIES, GET_MOVIE_SEARCH_RESULTS, GET_MOVIE_DETAIL, GET_MOVIE_CREDITS, GET_SEARCHED_CATEGORIES } from './Queries/Categories';
 import { GET_ALL_ARTICLES, GET_ALL_CATE_ARTICLES, GET_ARTICLE, GET_USERS_ARTICLES } from './Queries/Articles';
 import { CREATE_USER, DELETE_USER, UPDATE_PASSWORD, LOGIN, CREATE_NEW_ACCESSTOKEN, LOGOUT } from './Mutations/User';
@@ -23,7 +23,8 @@ const RootQuery = new GraphQLObjectType({
         getAllSearchedCategories : GET_SEARCHED_CATEGORIES,
         getMovieSearchResults : GET_MOVIE_SEARCH_RESULTS,
         getMovieDetail : GET_MOVIE_DETAIL,
-        getMovieCredits : GET_MOVIE_CREDITS
+        getMovieCredits : GET_MOVIE_CREDITS,
+        checkUser : CHECK_USER
     }
 })
 
