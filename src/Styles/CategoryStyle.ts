@@ -53,7 +53,7 @@ export const CateDetailThumbnail = styled.div<{bgphoto : string}>`
 
 export const CateDetailInfo = styled.div`
     width : 100%;
-    height : 340px;
+    height : fit-content;
     padding : 20px;
     display: flex;
     flex-direction: column;

@@ -13,6 +13,7 @@ export const HeaderWrapper = styled(motion.div)`
 `
 
 export const LogoSection = styled.div`
+    font-family: 'Abril Fatface', cursive;
     display : flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +21,7 @@ export const LogoSection = styled.div`
     color : ${props => props.theme.base.main};
     font-size: 1.5rem;
     font-family: 'Federo', sans-serif;
-    font-weight: bold;
+    font-weight: 900;
     &:hover {
         cursor: pointer;
     }

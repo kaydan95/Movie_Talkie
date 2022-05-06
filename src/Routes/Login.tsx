@@ -21,9 +21,8 @@ function Login() {
         },
         onCompleted : (data) => {
             if(data?.login.accessToken != ""){
-                const isLogged = true;
                 alert("로그인 성공")
-                navigate(-1);
+                navigate(`/`);
             }
         }
     });

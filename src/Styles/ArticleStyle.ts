@@ -38,7 +38,7 @@ export const ArticleImgBox = styled.div<{bgphoto : string}>`
         position: absolute;
         right: 10px;
         margin: 20px;
-        z-index: 1;
+        z-index: 0;
         cursor : pointer;
     }
 `

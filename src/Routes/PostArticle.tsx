@@ -2,11 +2,19 @@ import React, {useEffect, useState} from 'react';
 import { useMutation, useQuery } from '@apollo/client'
 import { CREATE_NEW_ACCESSTOKEN, POST_ARTICLE } from '../Graphql/Mutation';
 import { useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { PostArticleBox, PostArticleWrapper } from '../Styles/PostArticle';
 import { GET_USER } from '../Graphql/Queries';
 import { ILocation } from './Main';
+import { ArticleBox, ArticleContext, ArticleSection, ArticleWrapper, EditArticleImgBox, EditArticleTitle, EditButtonBox } from '../Styles/ArticleStyle';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { useForm } from 'react-hook-form';
 
 
+interface IPostArticleVerify {
+    title : string;
+    context : string;
+    password : number;
+}
 
 function PostArticle() {
 
@@ -42,19 +50,25 @@ function PostArticle() {
     console.log(userData);
     console.log(data);
 
-
-    const [username, setUserName] = useState("");
-    const [password, setPassword] = useState("");
-    const [title, setTitle] = useState("");
-    const [context, setContext] = useState("");
+    const [imgPreview, setImgPreview] = useState("");
     const [img_file, setFile] = useState<File>();
     const navigate = useNavigate();
 
-    const fileUpload = (event:React.ChangeEvent<HTMLInputElement>) => {
-        if(!event.target.files){
+    const {register, handleSubmit, formState: { errors }} = useForm<IPostArticleVerify>({
+        mode : "onSubmit"
+    });
+
+    const fileUpload = (fileBlob : any) => {
+        if(!fileBlob){
             return;
         }
-        setFile(event.target.files[0]);
+        // 수정할 이미지 미리보기
+        const reader = new FileReader();
+        reader.readAsDataURL(fileBlob);
+        reader.onload = () => {
+            setImgPreview(reader.result as any);
+        }
+        setFile(fileBlob);
     }
 
     const [postArticle, {error}] = useMutation(POST_ARTICLE, {
@@ -64,7 +78,7 @@ function PostArticle() {
                 "Content-Type": "application/json",
             }
         },
-        onCompleted : (data) => {
+        onCompleted : () => {
             if(!error){
                 alert("게시글 작성 완료");
                 navigate(`/category/${cateId}`, {replace : true, state : { isLogged : isLogged }})
@@ -72,32 +86,84 @@ function PostArticle() {
         }
     });
 
+    const onPostArticleValid = (data : IPostArticleVerify) => {
+        postArticle({
+            variables : {
+                username : userName,
+                password : data.password,
+                title : data.title,
+                context : data.context,
+                img_file : img_file,
+                category : cateId
+            }
+        })
+    }
+
+    const handleCancel = () => {
+        navigate(-1);
+    }
+
     return (
-        // <PostArticleWrapper>
-        //     <PostArticleBox>
-
-        //     </PostArticleBox>
-        // </PostArticleWrapper>
-
-        <div>
-            <input type="text" placeholder="category_number" defaultValue={cateId}/><br/>
-            <input type="text" placeholder="userid" defaultValue={userId}/><br/>
-            <input type="text" placeholder="username" defaultValue={userName}/><br/>
-            <input type="password" placeholder="password" onChange={(event) => {
-                setPassword(event.target.value);
-                }}/><br/>
-            <input type="text" placeholder="title" onChange={(event) => {
-                setTitle(event.target.value);
-            }}/><br/>
-            <input type="text" placeholder="context" onChange={(event) => {
-                setContext(event.target.value);
-            }}/><br/>
-            <input type="file" name="file" id="file" onChange={fileUpload}/>
-            
-            <button onClick={()=>{
-                postArticle({variables : {username:userName, password:password, title:title, context:context, img_file:img_file, category:cateId}});
-            }}>Post Article</button>
-        </div>
+        <ArticleWrapper>
+            <ArticleBox>
+                <EditArticleImgBox bgphoto={`${imgPreview}`}>
+                    <div className='fileUploadBox'>
+                        <label htmlFor='editImg'>
+                            <FontAwesomeIcon icon={faImage}></FontAwesomeIcon>
+                        </label>
+                        <input type = "file" onChange={(e) => {fileUpload(e.target.files![0])}} id='editImg'></input>
+                    </div>
+                    <EditArticleTitle>
+                        <span>
+                            <input 
+                                placeholder='Write a Title'
+                                {...register('title', {
+                                    required : "this field is required",
+                                    minLength : {
+                                        value : 3,
+                                        message : "Title should be more than 3 characters"
+                                    }
+                                })}
+                            />
+                        </span>
+                        <div style={{width : "135px"}}>
+                            <span>{userName} | </span>
+                            <span>
+                                <input 
+                                    style={{width : '80px', fontSize : "1rem"}}
+                                    type="password"
+                                    placeholder='password'
+                                    {...register('password', {
+                                        required : "this field is required",
+                                        maxLength : {
+                                            value : 4,
+                                            message : "Title should be less than 5 characters"
+                                        }
+                                    })}
+                                />
+                            </span>
+                        </div>
+                    </EditArticleTitle>
+                </EditArticleImgBox>
+                <ArticleSection>
+                    <ArticleContext>
+                        <textarea 
+                            {...register('context', {
+                                required : "this field is required",
+                                minLength : {
+                                    value : 10,
+                                    message : "Title should be more than 10 characters"
+                                }
+                            })}
+                        />
+                    </ArticleContext>
+                </ArticleSection>
+            </ArticleBox>
+            <EditButtonBox>
+                <button onClick={() => handleCancel()}>CANCEL</button>
+                <button onClick={handleSubmit(onPostArticleValid)}>POST</button>
+            </EditButtonBox>
+        </ArticleWrapper>
     )
 }
 
