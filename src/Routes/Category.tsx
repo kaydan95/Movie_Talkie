@@ -7,6 +7,7 @@ import { Article, CateArticleSection, CateArticlesList, CateArticleTitle, CateDe
 import { GenreTag } from '../Styles/CreateCateStyle';
 import { makeImage } from '../util';
 import { IGenre } from './CreateCategory';
+import { Helmet } from 'react-helmet';
 
 interface ICredit {
     name : string;
@@ -117,6 +118,9 @@ function Category() {
 
     return (
         <CateWrapper>
+            <Helmet>
+                <title>{cateInfoDetail?.original_title}</title>
+            </Helmet>
             <CateDetailSection>
                 <CateName>Category Info</CateName>
                 <CateDetailBox>

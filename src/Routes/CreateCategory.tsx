@@ -10,6 +10,7 @@ import { GET_MOVIE_DETAIL, GET_MOVIE_SEARCH_RESULTS, GET_USER } from '../Graphql
 import { makeImage } from '../util';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ILocation } from './Main';
+import { Helmet } from 'react-helmet';
 
 
 //interface
@@ -125,6 +126,9 @@ function CreateCategory() {
 
     return (
         <>
+            <Helmet>
+                <title>create category</title>
+            </Helmet>
             <CreateCateWrapper>
                 <CateFormSection>
                     <h1>Create New Category</h1>

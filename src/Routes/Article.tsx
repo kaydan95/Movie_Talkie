@@ -9,6 +9,7 @@ import { useAnimation } from 'framer-motion';
 import { MenuModal } from '../Styles/HeaderStyle';
 import { ModalVars } from '../Components/Header';
 import GoEditModal from '../Components/GoEditModal';
+import { Helmet } from 'react-helmet';
 
 // variants
 export const EditModalVars = {
@@ -105,6 +106,9 @@ function Article() {
 
     return (
         <>
+            <Helmet>
+                <title>{article?.title}</title>
+            </Helmet>
             <ArticleWrapper>
                 <ArticleBox>
                     <ArticleImgBox bgphoto={`${article?.img_file}`}>
