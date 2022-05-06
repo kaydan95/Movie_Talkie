@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { GET_MOVIE_SEARCH_RESULTS, GET_SEARCHED_CATEGORIES } from '../Graphql/Queries';
 import { makeImage } from '../util';
@@ -122,6 +122,7 @@ export interface ICateType {
 function MovieSearch() {
 
     const loaction = useLocation();
+    const navigate = useNavigate();
     const keyword = new URLSearchParams(loaction.search).get("keyword");
 
     const [searchKeyword, setKeyword] = useState(keyword);
@@ -136,6 +137,10 @@ function MovieSearch() {
 
     const movies = cateSearch?.getAllSearchedCategories;
 
+    const goTheCate = (cateId : number) => {
+        navigate(`/category/${cateId}`);
+    }
+
     // console.log(movies);
 
     return (
@@ -144,7 +149,7 @@ function MovieSearch() {
                 {movies?.length !== 0 ? (
                     <MovieSearchWrapper>
                         {movies?.map((movie:ICateType) => (
-                            <MovieBox key={movie.id}>
+                            <MovieBox key={movie.id} onClick={() => goTheCate(movie.id)}>
                                 {movie.category_imgPath !== null ? (
                                     <MovieImg bgphoto={makeImage(movie.category_imgPath, "w300")}/>
                                 ) : (
