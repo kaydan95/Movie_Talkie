@@ -1,9 +1,30 @@
 import { useMutation } from '@apollo/client';
-import React, {useEffect, useState} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LOGIN } from '../Graphql/Mutation';
 import { FormBox } from '../Styles/CreateCateStyle'
-import { JoinBox, JoinForm, JoinFormBoxWrapper, JoinTitle, JoinWrapper, JoinBtn } from './Join'
+import { JoinForm, JoinFormBoxWrapper, JoinTitle, JoinBtn } from './Join'
+
+const LoginWrapper = styled.div`
+    padding : 10px;
+    width : 100%;
+    height : 88vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+`
+
+const LoginBox = styled.div`
+    padding : 20px;
+    width : 35%;
+    height : fit-content;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+`
 
 function Login() {
 
@@ -28,17 +49,16 @@ function Login() {
     });
 
     return (
-        <JoinWrapper>
-            <JoinBox>
+        <LoginWrapper>
+            <LoginBox>
                 <JoinTitle>LOGIN CARD</JoinTitle>
                 <JoinForm>
                     <JoinFormBoxWrapper>
                         <p>user id</p>
                         <FormBox>
                             <input 
-                                placeholder='user ID'
-                                value={userId} 
-                                onChange={(event) => {setUserId(event.target.value);}}
+                                placeholder='user ID' 
+                                onChange={(event) => {setUserId(event.target.value)}}
                             />
                         </FormBox>
                     </JoinFormBoxWrapper>
@@ -48,15 +68,14 @@ function Login() {
                             <input 
                                 placeholder='password'
                                 type='password'
-                                value={userPw} 
-                                onChange={(event) => {setuserPw(event.target.value);}}
+                                onChange={(event) => {setuserPw(event.target.value)}}
                             />
                         </FormBox>
                     </JoinFormBoxWrapper>
                 </JoinForm>
-            </JoinBox>
+            </LoginBox>
             <JoinBtn onClick={() => Login()}>LOGIN</JoinBtn>
-        </JoinWrapper>
+        </LoginWrapper>
     )
 }
 
