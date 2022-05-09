@@ -34,7 +34,7 @@
 - __해결책__ : 클라우드에 올려놓고 그 위치만 DB에 저장하자!   
   __client측에서 업로드한 이미지를 s3로 보내 해당 bucket에 저장한 뒤 그 위치 url 을 DB에 저장하는 방식으로__ 
 
-1. 업로드할 파일 type 정의
+1) 업로드할 파일 type 정의
 
 ```typescript
 export const FileUploadType = new GraphQLScalarType({
@@ -47,7 +47,7 @@ export const FileUploadType = new GraphQLScalarType({
 });
 ```
 
-2. 업로더와 response type 정의
+2) 업로더와 response type 정의
 
 ```typescript
 // aws s3 에 업로드한 후 해당 이미지 url을 반환
@@ -64,7 +64,7 @@ export namespace ServerFileUploads {
 
 }
 ```
-3. client 측에서 보낸 이미지를 s3로 업로드할 stream, uploader
+3) client 측에서 보낸 이미지를 s3로 업로드할 stream, uploader
 
 
 ```typescript
