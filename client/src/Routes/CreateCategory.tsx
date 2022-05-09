@@ -114,10 +114,8 @@ function CreateCategory() {
             }
         },
         onCompleted : () => {
-            if(!error) {
-                alert(`${Detail?.original_title}` + " 카테고리 생성완료");
-                navigate(`/`, {replace : true, state : { isLogged : true}});
-            }
+            alert(`${Detail?.original_title}` + " 카테고리 생성완료");
+            navigate(`/`, {replace : true, state : { isLogged : true}});
         },
         onError : () => {
             alert("이미 존재하는 카테고리 입니다.");
