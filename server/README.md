@@ -1,4 +1,6 @@
-# :popcorn: Movie-Talkie (Back End) [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+# :popcorn: Movie-Talkie (Back End)
+<!-- [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger) -->
+<img src="https://user-images.githubusercontent.com/85853145/167378932-a22710dc-537d-4807-b798-ce88ef67d028.png" width="950" height="550">
 
 
 ## Summary / 요약
