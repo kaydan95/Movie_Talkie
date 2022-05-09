@@ -5,11 +5,15 @@
 > 평소 좋아하는 영화에 대해 의견을 나누는 걸 좋아하는 제가 꿈꿔왔던 공간을 React CRUD 프로젝트라는 명목으로 작지만 비슷하게나마 만들어보자 해서 시작하게 된 (개인적인) 프로젝트입니다. client는 React + Typescript 기반, server 는 Apollo Graphql + TypeScript 기반입니다. 만들고자하는 영화의 카테고리를 생성하는 것 부터 시작하여 글을 작성, 수정, 삭제 할 수 있는 기능까지 기본적인 CRUD 기능 모두 구현되어 있습니다. 😃
 
 
+
 ## :paperclip: Summary / 요약 
 
 - **목적** : React 기반 CRUD 를 만들어보고 싶다는 도전 정신 + GraphQl에 대한 호기심 + 개인적으로 꿈꿔봤던 공간 실현이라는 욕심
 - **메인 개발 환경** : React / Typescript / GraphQl / Node.JS / ts-node
 - **Data Api** : [The Movie Database Api](https://developers.themoviedb.org/3/getting-started/introduction)
+
+
+
 
 
 ## :round_pushpin: Features / 특징
@@ -36,6 +40,9 @@
 - 그래서 글에 대한 수정과 삭제에는 인증수단으로써 해당 글을 쓴 사람의 username 과 게시글에 대한 암호를 지정했다. 보안을 더 강력하게 하기 위해 username은 회원들끼리 중복되지 않게 설정했고, 게시글을 쓴 당사자를 제외한 타인이 게시글에 대한 암호를 알아내더라도 username을 알아내기 어렵도록 게시글에는 username의 앞 글자 세자리만 공개되도록 구현했다. 아래 이미지는 실제 글 수정 시 구현화면이다.
 
   <img src="https://user-images.githubusercontent.com/85853145/167350930-acf47367-075d-4991-85b0-b456e21aed46.gif" width="800" height="500">
+
+
+
 
 ## :memo: Things need to add / 추가하고 싶은 부분
 #### 1. MyPage 기능!
