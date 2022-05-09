@@ -9,9 +9,9 @@
 
 
 ## Installation / 설치
-    npm i cors
+<!--     npm i cors -->
     npm i express
-    npm i express-graphql
+<!--     npm i express-graphql
     npm i graphql
     npm i graphql-upload
     npm i multer
@@ -23,7 +23,7 @@
     npm i cookie-parser
     npm i jsonwebtoken
     npm i cross-fetch
-    npm i typeorm
+    npm i typeorm -->
     
 ## Start / 구동
     npm start
