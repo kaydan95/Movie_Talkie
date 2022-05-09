@@ -77,9 +77,10 @@ export const ArticleContext = styled.div`
     height : fit-content;
     background-color: ${props => props.theme.base.background};
     textarea {
+        font-family: 'Gowun Dodum', sans-serif;
         white-space: pre-wrap;
         border-radius: 5px;
-        padding : 5px;
+        padding : 10px;
         border : 0.8px solid ${props => props.theme.base.subOne};
         font-size: 1.1rem;
         width : 100%;

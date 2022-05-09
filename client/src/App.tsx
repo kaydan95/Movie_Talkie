@@ -15,7 +15,7 @@ import Article from "./Routes/Article";
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anek+Kannada:wght@300;400;500&family=Lato:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anek+Kannada:wght@300;400;500&family=Gowun+Dodum&family=Lato:wght@300;400;700;900&display=swap');
   font-family: 'Lato', sans-serif;
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
