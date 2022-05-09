@@ -12,6 +12,7 @@ function EditArticle() {
 
     const editArticlePathMatch = useMatch("/category/:cateId/editArticle/:articleId");
     console.log(editArticlePathMatch);
+    const cateId = Number(editArticlePathMatch?.params.cateId);
     const articleId = Number(editArticlePathMatch?.params.articleId);
     const navigate = useNavigate();
     const today = new Date();
@@ -96,7 +97,7 @@ function EditArticle() {
         },
         onCompleted : () => {
             alert("게시글 수정 완료");
-            navigate(`/article/${articleId}`)
+            navigate(`/category/${cateId}/article/${articleId}`)
         }
     });
 
