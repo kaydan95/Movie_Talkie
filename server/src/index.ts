@@ -72,7 +72,7 @@ const main = async () => {
         res.sendFile(path.resolve('../client/build/index.html'));
     });
 
-    const port = process.env.PORT || 3001
+    // const port = process.env.PORT || 3001
 
     app.listen(process.env.PORT || 3001, () => {
         // console.log(`🚀 Server ready at http://localhost:${port}/graphql`);
