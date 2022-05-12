@@ -67,7 +67,7 @@ const main = async () => {
         schema,
         graphiql : true,
     }));
-    app.use(express.static('client/build'));
+    app.use(express.static('/client/build'));
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(path.join(__dirname, 'client', '/build', 'index.html')));
     });
