@@ -13,6 +13,7 @@ import { verify } from 'jsonwebtoken';
 require('dotenv').config();
 import path from 'path';
 
+
 const main = async () => {
 
     const REFRESH_TOKEN_SECRET : any = process.env.REFRESH_TOKEN_SECRET_KEY;
@@ -66,7 +67,7 @@ const main = async () => {
         schema,
         graphiql : true,
     }));
-    app.use(express.static(path.join(__dirname, 'client/build')));
+    app.use(express.static(path.join(__dirname, '/client/build')));
     app.get('/', (req, res) => {
         res.sendFile(path.join(__dirname+'/client/build/index.html'));
     });
