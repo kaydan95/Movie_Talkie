@@ -68,7 +68,7 @@ const main = async () => {
         graphiql : true,
     }));
     app.use(express.static('../client/build'));
-    app.get('*', (req, res) => {
+    app.get('/', (req, res) => {
         res.sendFile(path.resolve('../client/build/index.html'));
     });
 
