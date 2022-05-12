@@ -75,7 +75,6 @@ const main = async () => {
     const port = process.env.PORT || 3001
 
     app.listen(port, () => {
-        // console.log(`🚀 Server ready at http://localhost:${port}/graphql`);
         console.log(`🚀 Server ready`);
     })
 };
