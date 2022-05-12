@@ -11,6 +11,7 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import cookieParser from 'cookie-parser';
 import { verify } from 'jsonwebtoken';
 require('dotenv').config();
+import path from 'path';
 
 const main = async () => {
 
@@ -65,10 +66,15 @@ const main = async () => {
         schema,
         graphiql : true,
     }));
+    app.use(express.static('client/build'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+    });
 
+    const PORT = process.env.PORT || 3001
 
-    app.listen(3001, () => {
-        console.log("🚀 Server ready at http://localhost:3001/graphql");
+    app.listen(PORT, () => {
+        console.log(`🚀 Server ready at ${PORT}`);
     })
 };
 

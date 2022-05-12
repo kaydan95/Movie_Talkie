@@ -127,6 +127,7 @@ function Header() {
                     <input
                         {...register("keyword", {required : true, minLength : 2})}
                         placeholder='search movie category'
+                        data-testid="input"
                     />
                 </SearchSection>
                 <MenuSection>

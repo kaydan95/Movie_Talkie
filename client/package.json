@@ -53,6 +53,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy" : "http://localhost:3001",
   "devDependencies": {
     "@types/apollo-upload-client": "^17.0.0",
     "@types/react-helmet": "^6.1.5",

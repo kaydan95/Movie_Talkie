@@ -85,7 +85,7 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
 
-  const BASE_URL:string = "http://localhost:3001/graphql";
+  const BASE_URL:string = "/graphql";
 
   const link = createUploadLink({
     uri : BASE_URL,
