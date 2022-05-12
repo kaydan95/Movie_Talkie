@@ -75,6 +75,7 @@ const main = async () => {
     const port = process.env.PORT || 3001
 
     app.listen(port, () => {
+        console.log(process.env.PORT);
         console.log(`🚀 Server ready`);
     })
 };
