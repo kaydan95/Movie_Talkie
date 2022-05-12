@@ -34,7 +34,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "serve -s build",
-    "build": "node --max_old_space_size=4096 node_modules/.bin/react-scripts build",
+    "build": "node --max_old_space_size=6096 node_modules/.bin/react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
