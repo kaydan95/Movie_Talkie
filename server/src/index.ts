@@ -71,10 +71,10 @@ const main = async () => {
         res.sendFile(path.join(__dirname+'/client/build/index.html'));
     });
 
-    const PORT = process.env.PORT || 3001
+    const port = process.env.PORT || 3001
 
-    app.listen(PORT, () => {
-        console.log(`🚀 Server ready at ${PORT}`);
+    app.listen(process.env.PORT || 3001, () => {
+        console.log(`🚀 Server ready at ${port}`);
     })
 };
 
