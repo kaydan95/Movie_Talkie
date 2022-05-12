@@ -52,7 +52,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.179"
   },
-  "engines":{
+  "engines": {
     "node": "16.14.0",
     "npm": "8.3.1"
   }
