@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "node ./dist/index.ts",
     "start": "nodemon ./src/index.ts",
