@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "node ./dist/index.ts",
-    "start": "node ./src/index.ts",
-    "build": "tsc -p .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc"
+    "dev": "nodemon ./src/index.ts",
+    "start": "node ./dist/src/index.js",
+    "build": "tsc",
+    "postinstall": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
