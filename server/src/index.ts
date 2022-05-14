@@ -10,8 +10,10 @@ import { Category } from './Entities/Category';
 import { graphqlUploadExpress } from 'graphql-upload';
 import cookieParser from 'cookie-parser';
 import { verify } from 'jsonwebtoken';
-require('dotenv').config();
+import dotenv from "dotenv";
 import path from 'path';
+
+dotenv.config();
 
 const main = async () => {
 
