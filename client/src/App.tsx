@@ -1,6 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, Navigate} from "react-router-dom";
-import {ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client";
-import {createUploadLink} from "apollo-upload-client";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UpdatePw from './Components/UpdatePw';
 import Main from './Routes/Main';
 import PostArticle from './Routes/PostArticle';
@@ -12,7 +10,7 @@ import Login from './Routes/Login';
 import Join from './Routes/Join';
 import EditArticle from "./Routes/EditArticle";
 import Article from "./Routes/Article";
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anek+Kannada:wght@300;400;500&family=Gowun+Dodum&family=Lato:wght@300;400;700;900&display=swap');
@@ -85,23 +83,10 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
 
-  const BASE_URL:string = "/graphql";
-
-  const link = createUploadLink({
-    uri : BASE_URL,
-    credentials : 'include'
-  });
-
-  const client = new ApolloClient({
-    link : link,
-    cache : new InMemoryCache(),
-  });
-
   return (
     <>
       <GlobalStyle/>
       <Router>
-        <ApolloProvider client={client}>
           <Header/>
           <Routes>
             <Route path="/" element={<Main/>}></Route>
@@ -118,9 +103,7 @@ function App() {
 
             
             <Route path="/updatepw" element={<UpdatePw/>}></Route>
-
           </Routes>
-        </ApolloProvider>
       </Router>
     </>
 
