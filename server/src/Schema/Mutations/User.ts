@@ -146,7 +146,7 @@ export const LOGIN = {
                 const id = user.id
                 await Users.update(id, {token : refreshToken});
                 const one = await Users.findOne({id : id});
-                res.cookie("refresh-token", refreshToken, {httpOnly : true, secure : true});
+                res.cookie("refresh-token", refreshToken, {httpOnly : true, secure : true, sameSite : "none"});
 
                 return {
                     user : one,

@@ -43,6 +43,7 @@ const main = async () => {
     app.use(express.urlencoded({extended:true}))
     app.use(cors(corsOptions))
     app.use(express.json())
+    app.set("trust proxy", 1);
     app.use(cookieParser()); //위치 중요...!
     app.use(async(req, _, next) => {
         if(!req.headers.authorization){
