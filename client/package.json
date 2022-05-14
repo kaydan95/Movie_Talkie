@@ -32,7 +32,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "local-start": "react-scripts start",
     "start": "serve -s build",
     "build": "node --max_old_space_size=6096 node_modules/.bin/react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -57,7 +57,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "https://murmuring-springs-36001.herokuapp.com/",
   "devDependencies": {
     "@types/apollo-upload-client": "^17.0.0",
     "@types/react-helmet": "^6.1.5",
