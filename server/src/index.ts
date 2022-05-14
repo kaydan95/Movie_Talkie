@@ -67,9 +67,9 @@ const main = async () => {
         graphiql : true,
     }));
     if(process.env.NODE_ENV === "production"){
-        app.use(path.join(__dirname, "/../../client/build"));
+        app.use(path.join(__dirname, "../../../client/build"));
         app.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname, "/../../client/build", "index.html"));
+            res.sendFile(path.join(__dirname, "../../../client/build", "index.html"));
         });
         app.listen(process.env.PORT, () => {
             console.log(`🚀 Server ready`);
