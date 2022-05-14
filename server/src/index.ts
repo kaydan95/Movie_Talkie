@@ -71,14 +71,17 @@ const main = async () => {
         app.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../../client/build', '/index.html'));
         });
+        app.listen(process.env.PORT, () => {
+            console.log(`🚀 Server ready`);
+        })
+    }
+    else {
+
+        app.listen(3001, () => {
+            console.log(`🚀 Server ready`);
+        })
     }
 
-    const port = process.env.PORT || 3001
-
-    app.listen(process.env.PORT || 3001, () => {
-        console.log(process.env.PORT);
-        console.log(`🚀 Server ready`);
-    })
 };
 
 main().catch((err) => {
