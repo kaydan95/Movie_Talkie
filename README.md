@@ -54,5 +54,5 @@
 - 만들다보니 놓치고 있었던 부분이다. 업데이트 한다면 가장 먼저 해야할 부분!
 
 ## 🚀 Deploy / 배포 완료
-- 프론트 : [Netlify]https://www.netlify.com/)
-- 백 : [Heroku(https://dashboard.heroku.com/apps)
+- 프론트 : [Netlify](https://www.netlify.com/)
+- 백 : [Heroku](https://dashboard.heroku.com/apps)
