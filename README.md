@@ -10,6 +10,7 @@
 - **목적** : React 기반 CRUD 를 만들어보고 싶다는 도전 정신 + GraphQl에 대한 호기심 + 개인적으로 꿈꿔봤던 공간 실현이라는 욕심
 - **메인 개발 환경** : React / Typescript / GraphQl / Node.JS / ts-node
 - **Data Api** : [The Movie Database Api](https://developers.themoviedb.org/3/getting-started/introduction)
+- **배포** : [Movie-Talkie](https://movie-talkie.netlify.app/)
 
 
 
@@ -54,5 +55,12 @@
 - 만들다보니 놓치고 있었던 부분이다. 업데이트 한다면 가장 먼저 해야할 부분!
 
 ## 🚀 Deploy / 배포 완료
-- 프론트 : [Netlify](https://www.netlify.com/)
-- 백 : [Heroku](https://dashboard.heroku.com/apps)
+- 프론트 단은 [Netlify](https://www.netlify.com/) 으로 백은 [Heroku](https://dashboard.heroku.com/apps) 를 이용해 배포했다.
+- Heroku 특징 상 30분 이상 트래픽이 없으면 sleep 모드로 들어가 깨우기 시간이 걸린다..! 그래도 조금만 기다리면 뜨니까...!
+
+### 배포시 마주했던 문제점들
+1. 배포 시 사용할 DB의 부재   
+__해결__ : local 에서 MySQL 을 DB로 사용하고 있어서 배포시 이용할 ClearDBMySQL 을 추가 연결 처리해야했다.
+2. port 차이에서 오는 쿠키 저장 문제   
+__문제__ : 배포 후 프론트와 백의 포트가 달라져 httpOnly로  저장되어야할 refreshToken 이 저장되지 않았다.   
+__해결__ : 쿠키 생성 및 저장 시 option에 `sameStie : "none"` 설정을 추가
