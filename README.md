@@ -1,5 +1,4 @@
-# :popcorn: Movie_Talkie
-<!-- [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger) -->
+# :popcorn: Movie_Talkie [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 <img src="https://user-images.githubusercontent.com/85853145/167337553-c0368c5b-be0c-460c-805a-78c172f58b5b.png" width="1000" height="500">
 
 > 평소 좋아하는 영화에 대해 의견을 나누는 걸 좋아하는 제가 꿈꿔왔던 공간을 React CRUD 프로젝트라는 명목으로 작지만 비슷하게나마 만들어보자 해서 시작하게 된 (개인적인) 프로젝트입니다. client는 React + Typescript 기반, server 는 Apollo Graphql + TypeScript 기반입니다. 만들고자하는 영화의 카테고리를 생성하는 것 부터 시작하여 글을 작성, 수정, 삭제 할 수 있는 기능까지 기본적인 CRUD 기능 모두 구현되어 있습니다. 😃
@@ -54,5 +53,6 @@
 #### 3. 최근 업데이트 순으로 게시글 표시하기
 - 만들다보니 놓치고 있었던 부분이다. 업데이트 한다면 가장 먼저 해야할 부분!
 
-## Deploy / 배포
-- 진행중!
+## 🚀 Deploy / 배포 완료
+- 프론트 : [Netlify]https://www.netlify.com/)
+- 백 : [Heroku(https://dashboard.heroku.com/apps)
