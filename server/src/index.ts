@@ -34,7 +34,8 @@ const main = async () => {
     });
 
     var corsOptions = {
-        origin: 'http://localhost:3000' || 'https://movie-talkie.netlify.app',
+        origin : 'https://movie-talkie.netlify.app',
+        // origin: 'http://localhost:3000',
         credentials: true // <-- REQUIRED backend setting
     };
 
