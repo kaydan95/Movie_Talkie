@@ -22,10 +22,10 @@ const main = async () => {
 
     await createConnection({
         type:"mysql",
-        host : process.env.CLEARDB_HOST_NAME,
-        database :process.env.CLEARDB_DATABASE, //"GraphqlCRUD"
-        username : process.env.CLEARDB_USER_NAME, //"root"
-        password :process.env.CLEARDB_PASSWORD,
+        host : "localhost" || process.env.CLEARDB_HOST_NAME,
+        database :"GraphqlCRUD" || process.env.CLEARDB_DATABASE,
+        username : "root" || process.env.CLEARDB_USER_NAME,
+        password :process.env.DB_PASSWORD || process.env.CLEARDB_PASSWORD,
         logging : false,
         // 코드로 entity를 만들었을 때 자동으로 mysql workbench에 동기화 해서 table 생성하는 부분
         // true 로 해놓은 채로 계속 저장하면 table 내에 entity 가 계속 생기니까 바꿀때만 true, 만들고 나면 false 로 바꿔줄것
@@ -34,8 +34,7 @@ const main = async () => {
     });
 
     var corsOptions = {
-        origin : 'https://movie-talkie.netlify.app',
-        // origin: 'http://localhost:3000',
+        origin: 'http://localhost:3000' || 'https://movie-talkie.netlify.app',
         credentials: true // <-- REQUIRED backend setting
     };
 
@@ -87,7 +86,7 @@ const main = async () => {
     // }
 
     app.listen(process.env.PORT || 3001, () => {
-        console.log(`🚀 Server ready`);
+        console.log(`🚀 Server ready at http://localhost:3001/graphql`);
     })
 
 };

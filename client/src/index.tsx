@@ -6,8 +6,7 @@ import { theme } from './Styles/theme';
 import {ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client";
 import {createUploadLink} from "apollo-upload-client";
 
-
-const BASE_URL:string = "https://movie-talkie-server.herokuapp.com/graphql";
+const BASE_URL:string = "http://localhost:3001/graphql" || "https://movie-talkie-server.herokuapp.com/graphql";
 
 const link = createUploadLink({
   uri : BASE_URL,

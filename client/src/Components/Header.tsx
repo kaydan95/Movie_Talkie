@@ -94,7 +94,7 @@ function Header() {
 
     const [goLogout] = useMutation(LOGOUT, {
         onCompleted : () => {
-            navigate(`/`, {state : { isLogged : isLogged}});
+            navigate(`/`);
         }
     })
 

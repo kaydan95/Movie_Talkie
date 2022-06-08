@@ -162,7 +162,7 @@ export const LOGOUT = {
     type : MessageType,
     async resolve(parent:any, _:any, {res} : any){
 
-        res.clearCookie("refresh-token");
+        res.clearCookie("refresh-token", {httpOnly : true, secure : true, sameSite : "none"});
 
         return { success : true, message : "LOGOUT SUCCESSFULLY"}
     }
