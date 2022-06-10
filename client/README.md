@@ -11,7 +11,7 @@
 
     
 ## Start / 구동
-    npm start
+    npm run start
 
 ## Layout / 구조
 - #### 🎬 주요 페이지 구성 및 설명
