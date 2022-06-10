@@ -26,7 +26,7 @@
     npm i typeorm -->
     
 ## Start / 구동
-    npm start
+    npm run dev
     
 ## Features / 특징
 ### 1. Amazon S3 를 이용한 이미지 업로드
