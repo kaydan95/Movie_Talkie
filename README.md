@@ -58,15 +58,50 @@
 - 프론트 단은 [Netlify](https://www.netlify.com/) 으로 백은 [Heroku](https://dashboard.heroku.com/apps) 를 이용해 배포했다.
 - Heroku 특징 상 30분 이상 트래픽이 없으면 sleep 모드로 들어가 깨우기 시간이 걸린다..! 그래도 조금만 기다리면 뜨니까...!
 
-### 서버 배포시 마주했던 문제점들
-1. 배포 시 사용할 DB의 부재   
+### 😵 서버 배포시 마주했던 문제점들
+__1. 배포 시 사용할 DB의 부재__   
 __해결__ : local 에서 MySQL 을 DB로 사용하고 있어서 배포시 이용할 ClearDBMySQL 을 추가 연결 처리해야했다.
-2. port 차이에서 오는 쿠키 저장 문제   
+
+__2. port 차이에서 오는 쿠키 저장 문제__   
 __문제__ : 배포 후 프론트와 백의 포트가 달라져 httpOnly로  저장되어야할 refreshToken 이 저장되지 않았다.   
-__해결__ : 쿠키 생성 및 저장 시 option에 `sameStie : "none"` 설정을 추가
-3. typescript -> javascript 변환   
+__해결__ : 쿠키 생성 및 저장 시 option에 `sameStie : "none"` 설정을 추가   
+
+```typescript
+   res.cookie("refresh-token", refreshToken, {httpOnly : true, secure : true, sameSite : "none"});
+```
+
+__3. typescript -> javascript 변환__  
 __문제__ : 별다른 설정 없이는 Heroku 서버상에서 typescript 를 사용할 수 없음    
-__해결__ : `package.json` 파일에 `"build" : "tsc"` 항목 추가 후 빌드 -> 생성된 dist 폴더 속 index.js 를 통해 배포   
-4. cors 정책   
+__해결__ : `package.json` 파일에 `"build" : "tsc"` 항목 추가 후 빌드 -> 생성된 dist 폴더 속 index.js 를 통해 배포  
+
+```typescript
+   "scripts": {
+     "dev": "nodemon ./src/index.ts",
+     "start": "node ./dist/src/index.js",
+     "build": "tsc",
+     "postinstall": "npm run build",
+     "test": "echo \"Error: no test specified\" && exit 1"
+   },
+```
+
+__4. cors 정책__   
 __문제__ : 도메인을 배포해준 프론트단 도메인과 일치하지 않음   
-__해결__ : 프론트단을 배포해준 netlify 상의 도메인과 일치시킴
+__해결__ : 프론트단을 배포해준 netlify 상의 도메인과 일치시킴  
+
+```typescript
+    var corsOptions = {
+        origin : 'https://movie-talkie.netlify.app',
+        // origin: 'http://localhost:3000',
+        credentials: true // <-- REQUIRED backend setting
+    };
+```
+
+### 😵 서버 배포후 마주했던 문제점들
+__1. 로그아웃 기능 오류__   
+__문제__ : `refresh-token` 이 삭제되지 않아서 로그아웃 자체가 되질 않음..   
+__해결__ : 로그아웃시 cookie option 추가   
+
+```typescript
+   res.clearCookie("refresh-token", {httpOnly : true, secure : true, sameSite : "none"});
+```
+
