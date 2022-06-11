@@ -194,4 +194,20 @@ app.use(async(req, _, next) => {
 ...
 ```
 
+### 4. Cors 정책 문제
+: 프론트단의 도메인과 달라 생긴 문제점! `index.ts` 에서 cors 문제를 해결해줘야했다. 이전 netflix_clone 프로젝트에서 cors 문제를 한번 마주하고 난 뒤로 많이 당황하지 않고 해결할 방법을 빠르게 찾아 볼 수 있었던 것 같다.      
+```typescript
+    import cors from 'cors';
+    
+    var corsOptions = {
+        origin : 'https://movie-talkie.netlify.app',
+        // origin: 'http://localhost:3000',
+        credentials: true // <-- REQUIRED backend setting
+    };
+    
+    const app = express()
+    app.use(cors(corsOptions))
+    
+    ...(중략)
+```
 
