@@ -163,7 +163,12 @@ export class Category extends BaseEntity {
 ```
 
 ### 3. token 문제
-- __계기__ : 초반 계획에는 없던 로그인 기능을 추가하면서 token 에 대해 자세하게 알아보게 되었다. 여러 보안문제들 때문에 결국 로그인을 할때 refresh-token 과 access-token 두 가지 모두를 부여하되 refresh-token 은 httpOnly 쿠키로 저장하면서 동시에 DB에도 저장했다. 그리고 __url이 바뀔 때마다 DB에 있는 해당 유저의 refresh-token을 이용해 새로운 access-token을 부여해주는 방식__ 으로 설계했다. 그리고 이 access-token 을 카테고리 생성, 게시글작성, 수정, 삭제 등을 수행할 때 header에 담아 server로 보내 이를 해당 유저가 맞는지 다시 한번 확인하도록 했다.
+- __계기__ : 초반 계획에는 없던 로그인 기능을 추가하면서 token 에 대해 자세하게 알아보게 되었다. 기본적으로 게시글을 읽는 기능에 대해서는 회원이 아니라도 누구나 가능 할 수 있도록 했지만 그 외 카테고리를 생성하고 게시글을 쓰고 편집하는 기능에는 오로지 회원만 가능하도록 변경했다. 따라서 해당 기능을 수행할 때에는 해당 유저에 대한 정보와 access-token 이 있어야한다고 생각했다. 따라서 최초 로그인 부터 새로운 access-token 을 부여하는 과정은 다음과 같이 처리했다.   
+    1) 최초 로그인 시 refresh-token 을 http-only 형식으로 쿠키에 저장하고 여기에서 현재 로그인한 유저 정보를 받는다.
+    2) 로그인 시 사용했던 email 로 db 에서 일치하는 회원정보를 찾는다.
+    3) 해당 회원정보를 이용해 새로운 access-token 을 생성하고 client 에 부여한다.
+    4) 발행된 새로운 access-token 을 카테고리 생성, 게시글작성, 수정, 삭제 등을 수행할 때 header에 담아 server로 보내 access-token 을 가지고 있을때만 기능을 수행할 
+
 - `app.use(cookieParser());` 의 위치가 중요 -> _위치때문에 헤맸다_ :smiling_face_with_tear:
 
 ```typescript
