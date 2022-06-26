@@ -41,16 +41,13 @@ function CreateCategory() {
     const navigate = useNavigate();
 
     // 유저정보 확인 후 accessToken 발급하기
-    const [userId, setUserId] = useState("");
-    const [token, setToken] = useState("");
+    const [userName, setUserName] = useState("");
     const { data : userData } = useQuery(GET_USER, {
         onCompleted : (data) => {
-            setUserId(data?.getUser?.id);
-            setToken(data?.getUser?.token);
+            setUserName(data?.getUser?.name);
             return {
-                userId, token
+                userName
             }
-
         }
     });
     const [ createToken, {data} ] = useMutation(CREATE_NEW_ACCESSTOKEN, {
@@ -74,18 +71,17 @@ function CreateCategory() {
 
     // 검색 후 검색 영역 타이틀 변경
     useEffect(() => {
-        if(userId != null) {
+        if(userName != null) {
             createToken({
                 variables : {
-                    id : userId,
-                    refreshToken : token
+                    name : userName,
                 }
             });
         }
         if(movieName !== ""){
             setSearchTitle("Here is result of " + `${movieName}`);
         }
-    },[userId, movieName]);
+    },[userName, movieName]);
 
 
     //영화 선택 후 -> From에 정보 반영
@@ -118,6 +114,7 @@ function CreateCategory() {
             navigate(`/`, {replace : true, state : { isLogged : true}});
         },
         onError : () => {
+            // console.log(error);
             alert("이미 존재하는 카테고리 입니다.");
         }
     });

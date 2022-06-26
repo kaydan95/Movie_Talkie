@@ -18,6 +18,7 @@ export const GET_USER = gql`
     query getUser {
         getUser {
             id
+            name
             username
             token
         }

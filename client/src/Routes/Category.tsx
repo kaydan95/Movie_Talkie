@@ -31,8 +31,7 @@ function Category() {
 
     // user  정보 확인 후 accessToken 발급
     const { data : userData, refetch : userRefetch } = useQuery(GET_USER);
-    const userId = userData?.getUser?.id;
-    const token = userData?.getUser?.token;
+    const userName = userData?.getUser?.name;
     const [isLogged, setIsLogged] = useState(false)
     const [ createToken, {data} ] = useMutation(CREATE_NEW_ACCESSTOKEN, {
         onCompleted : () => {
@@ -82,11 +81,10 @@ function Category() {
 
     useEffect(() => {
         articleRefetch();
-        if(userId !== "") {
+        if(userName !== "") {
             createToken({
                 variables : {
-                    id : userId,
-                    refreshToken : token
+                    name : userName,
                 }
             });
         }
@@ -97,7 +95,7 @@ function Category() {
         if(cateInfoDetail?.original_title?.includes(":")){
             setIsSplit(true);
         }
-    }, [userId]);
+    }, [userName]);
 
     // 글쓰기페이지로 이동
     const goPost = (cateId : number) => {

@@ -2,12 +2,10 @@ import {gql} from "@apollo/client";
 
 export const CREATE_NEW_ACCESSTOKEN = gql`
     mutation createNewAccessToken(
-        $id : ID!
-        $refreshToken : String! 
+        $name : String! 
         ) {
             createNewAccessToken(
-            id : $id 
-            refreshToken : $refreshToken 
+                name : $name
             ) {
                 accessToken
             }

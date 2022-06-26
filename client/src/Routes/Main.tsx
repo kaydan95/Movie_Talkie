@@ -33,8 +33,7 @@ function Main() {
 
     // 유저정보 확인 후 새로운 accessToken 발급
     const { data : userData , refetch : userRefetch} = useQuery(GET_USER);
-    const userId = userData?.getUser?.id;
-    const token = userData?.getUser?.token;
+    const userName = userData?.getUser?.name;
 
     const [isLogged, setIsLogged] = useState(false);
     const [ createToken, {data : accessTokenData} ] = useMutation(CREATE_NEW_ACCESSTOKEN, {
@@ -56,11 +55,10 @@ function Main() {
     useEffect(() => {
         cateRefetch();
 
-        if(userId !== "") {
+        if(userName !== "") {
             createToken({
                 variables : {
-                    id : userId,
-                    refreshToken : token
+                    name : userName
                 }
             });
         }
@@ -75,13 +73,13 @@ function Main() {
 
         userRefetch();
 
-    }, [userId, userData?.geUser]);
+    }, [userName, userData?.geUser]);
 
-    // console.log(userData)
+    // console.log(userData);
 
-    // console.log(accessTokenData)
+    // console.log(accessTokenData);
 
-    // console.log(isLogged)
+    // console.log(isLogged);
 
     const goTheCate = (cateId : number) => {
         navigate(`/category/${cateId}`, {state : { isLogged : isLogged }});

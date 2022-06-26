@@ -22,38 +22,27 @@ interface ILogin {
 }
 
 interface IToken {
-    id : number;
-    refreshToken : string;
+    name : string;
 }
 
 export const CREATE_NEW_ACCESSTOKEN = {
     type : UserToken,
     args :{
-        id : {type : GraphQLID},
-        refreshToken : { type : GraphQLString }
+        name : {type : GraphQLString},
     },
     async resolve(parent:any, args:IToken){
-        const { id, refreshToken } = args;
+        const { name } = args;
 
-        if(refreshToken === null) {
-            throw "refreshToken is not available"
+        if(name === null) {
+            throw "expired data"
         }
-        const user = await Users.findOne({id : id});
+        const user = await Users.findOne({name : name});
 
-        // console.log(refreshToken);
-        // console.log(user?.token);
+        const newAccessToken = sign({userId : user?.id, pw : user?.password}, ACCESS_TOKEN_SECRET, {expiresIn : "30min"});
+        return { 
+            accessToken : newAccessToken
+        };
 
-        // console.log(refreshToken === user?.token ? true : false);
-
-        if(refreshToken !== user?.token){
-            return null;
-        }
-        if(refreshToken === user?.token){
-            const newAccessToken = sign({userId : user.id}, ACCESS_TOKEN_SECRET, {expiresIn : "15min"});
-            return { 
-                accessToken : newAccessToken
-            };
-        }
     }
 };
 

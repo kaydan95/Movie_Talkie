@@ -22,10 +22,9 @@ function PostArticle() {
     const cateId = Number(postArticlePathMatch?.params.cateId);
 
     // 계정 확인 accessToken 발급
-    const { data : userData } = useQuery(GET_USER);
-    const userId = userData?.getUser?.id;
+    const { data : userData } = useQuery(GET_USER); // -> DB 에 있는 REFRESH-TOKEN 을 가져옴..
+    const userEmail = userData?.getUser?.name;
     const userName = userData?.getUser?.username;
-    const token = userData?.getUser?.token;
     const [isLogged, setIsLogged] = useState(false)
     const [ createToken, {data} ] = useMutation(CREATE_NEW_ACCESSTOKEN, {
         onCompleted : () => {
@@ -34,21 +33,20 @@ function PostArticle() {
     });
 
     useEffect(() => {
-        if(userId !== "") {
+        if(userEmail !== "") {
             createToken({
                 variables : {
-                    id : userId,
-                    refreshToken : token
+                    name : userEmail,
                 }
             });
         }
-    }, [userId])
+    }, [userEmail])
 
     const location = useLocation() as ILocation;
 
-    console.log(location);
-    console.log(userData);
-    console.log(data);
+    // console.log(location);
+    // console.log(userData);
+    // console.log(data);
 
     const [imgPreview, setImgPreview] = useState("");
     const [img_file, setFile] = useState<File>();
