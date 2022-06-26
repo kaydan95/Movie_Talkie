@@ -10,7 +10,8 @@
 - **목적** : React 기반 CRUD 를 만들어보고 싶다는 도전 정신 + GraphQl에 대한 호기심 + 개인적으로 꿈꿔봤던 공간 실현이라는 욕심
 - **메인 개발 환경** : React / Typescript / GraphQl / Node.JS / ts-node
 - **Data Api** : [The Movie Database Api](https://developers.themoviedb.org/3/getting-started/introduction)
-- **배포** : [Movie-Talkie](https://movie-talkie.netlify.app/)
+- **배포** : [Movie-Talkie](https://movie-talkie.netlify.app/)   
+- **프로젝트정리노트** : [Movie-Talkie 노트](https://www.notion.so/Movie-Talkie-33d191ecfef14c278fe2c2887aa5765c)
 
 
 
